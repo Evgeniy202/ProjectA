@@ -12,19 +12,13 @@
         <div class="col-md-6 offset-md-3">
             <h3 class="text-center">Sign In</h3>
             <hr>
-            <form action="#" method="post">
+            <form action="/admin/reg/check" method="post">
                 @csrf
                 <div class="form-group mt-3">
                     <input type="text" name="login" id="login" placeholder="login..." class="form-control">
                 </div>
                 <div class="form-group mt-3">
-                    <input type="text" name="email" id="email" placeholder="email..." class="form-control">
-                </div>
-                <div class="form-group mt-3">
                     <input type="password" name="password" id="password" placeholder="Your password..." class="form-control">
-                </div>
-                <div class="form-group mt-3">
-                    <input type="password" name="repPassword" id="repPassword" placeholder="Repeat password..." class="form-control">
                 </div>
                 <hr>
                 <input type="submit" class="btn btn-success btn-block col-12" value="To confirm">
