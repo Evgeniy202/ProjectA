@@ -21,7 +21,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-dark bg-black shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ route('mainAdm') }}">
+                <a class="navbar-brand" href="{{ route('home') }}">
                     ProjectA
                 </a> 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
