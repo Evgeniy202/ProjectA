@@ -39,10 +39,10 @@ Products
                                 <input type="text" name="price" id="price" placeholder="Price..." class="form-control">
                             </div>
                             <div class="form-group mt-3">
-                                <label>Is available <input type="checkbox" name="isAvailable" id="isAvailable" value="true"></label>
+                                <label>Is available <input type="checkbox" name="isAvailable" id="isAvailable" value="1"></label>
                             </div>
                             <div class="form-group mt-3">
-                                <label>Is favorite <input type="checkbox" name="isFavorite" id="isFavorite" value="true"></label>
+                                <label>Is favorite <input type="checkbox" name="isFavorite" id="isFavorite" value="1"></label>
                             </div>
                             <div class="form-group mt-3">
                                 <label>Main image <input type="file" name="mainImg" id="mainImg"></label>

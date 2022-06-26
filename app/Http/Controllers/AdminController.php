@@ -102,9 +102,9 @@ class AdminController extends Controller
 
         $price = $request-> input('price');
         $isAvailable = $request->input('isAvailable');
-        if ($isAvailable == true) { $isAvailable = 1; } else { $isAvailable = 0; }
+        if ($isAvailable != 1) { $isAvailable = 0; }
         $isFavorite = $request->input('isFavorite');
-        if ($isFavorite == true) { $isFavorite = 1; } else { $isFavorite = 0; }
+        if ($isFavorite != 1) { $isFavorite = 0; }
 
         $path = $request->file('mainImg')->store('products', 'public') ?? null;
         $path_1 = $request->file('img_1') ?? null;
