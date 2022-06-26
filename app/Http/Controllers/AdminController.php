@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\Categories;
+use App\Models\CharOfCat;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -156,6 +157,19 @@ class AdminController extends Controller
         catch(Exception $e) 
         { 
             echo $e->getMessage(); 
+        }
+    }
+
+    public function admCategoriesChar($id)
+    {
+        if (session('admin') != null)
+        {
+            return view('admin.char', [
+                'admin'=>session('admin'),
+                'accessLevel'=>session('accessLevel'),
+                'category'=>Categories::find($id),
+                'charList'=>CharOfCat::where('category', '=', $id)->get()
+            ]);
         }
     }
 

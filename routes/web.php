@@ -30,6 +30,7 @@ Route::post('/admin/adm/login/check', [AdminController::class, 'loginCheck']);
 
 Route::get('/admin/adm/mainAdm', [AdminController::class, 'mainAdm'])->name('mainAdm');
 Route::get('/admin/adm/category', [AdminController::class, 'categories'])->name('admCategories');
+Route::get('/admin/adm/category/{id}/char', [AdminController::class, 'admCategoriesChar'])->name('admCategoriesChar');
 Route::get('/admin/adm/products', [AdminController::class, 'products'])->name('admProducts');
 
 Route::post('/admin/adm/category/add_category', [AdminController::class, 'addCategory'])->name('addCategory');

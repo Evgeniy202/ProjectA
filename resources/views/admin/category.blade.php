@@ -8,18 +8,23 @@ Categories
     <h3>Categories</h3>
     <hr>
     <div class="mt-4 row">
+        <button style="max-width: 100%" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#orderDetails-">
+            Add new category
+        </button>
+        <hr>
         <h6 class="col-md-12">Tittle</h6>
         <hr>
         @foreach ($data as $item)
         <div class="row">
-            <strong class="col-md-7">{{ $item->tittle }}</strong>
-            <button type="button" class="btn btn-outline-warning col-md-2" data-bs-toggle="modal" data-bs-target="#changeModal-{{ $item->id }}">Change</button>
+            <strong class="col-md-5">{{ $item->tittle }}</strong>
+            <a class="col-md-2" href="{{ route('admCategoriesChar', $item->id) }}"><button type="button" class="btn btn-outline-success">Characteristic</button></a>
+            <button type="button" class="btn btn-outline-warning col-md-2" data-bs-toggle="modal" data-bs-target="#changeModal-{{ $item->id }}">Change tittle</button>
             <div class="modal fade" id="changeModal-{{ $item->id }}" tabindex="-1" aria-labelledby="changeModalLabel-{{ $item->tittle }}" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header text-dark">
                             <h5 class="modal-title text-center" id="changeModalLabel-{{ $item->tittle }}">
-                                <strong>Change {{ $item->tittle }}</strong>
+                                <strong>Change tittle {{ $item->tittle }}</strong>
                             </h5>
                         </div>
                         <div class="modal-body text-dark">
@@ -67,9 +72,6 @@ Categories
         @endforeach
     </div>
     <hr>
-    <button style="max-width: 100%" type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#orderDetails-">
-        Add new category
-    </button>
     <div class="modal fade" id="orderDetails-" tabindex="-1" aria-labelledby="orderDetailsLabel-" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content text-dark">
