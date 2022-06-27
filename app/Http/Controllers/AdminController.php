@@ -6,6 +6,8 @@ use App\Models\Admin;
 use App\Models\Categories;
 use App\Models\CharOfCat;
 use App\Models\Products;
+use App\Models\ValueOfChar;
+use Dotenv\Parser\Value;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use SebastianBergmann\Type\Exception;
@@ -54,7 +56,8 @@ class AdminController extends Controller
             return view('admin.category', [
                 'admin'=>session('admin'), 
                 'accessLevel'=>session('accessLevel'),
-                'data'=>Categories::all()
+                'data'=>Categories::all(),
+                'charList'=>CharOfCat::all()
             ]);
         }
     }
@@ -78,7 +81,12 @@ class AdminController extends Controller
         $review->tittle = $request->input('tittle');
         $review->save();
 
-        return redirect(route('admCategories'));
+        return redirect(route('admCategories', [
+            'admin'=>session('admin'), 
+            'accessLevel'=>session('accessLevel'),
+            'categoriesList'=>Categories::all(),
+            'productsList'=>Products::all()
+        ]));
     }
 
     public function removeCategory($id)
@@ -164,15 +172,42 @@ class AdminController extends Controller
     {
         if (session('admin') != null)
         {
+            $characteristics = CharOfCat::where('category', '=', $id)->orderBy('numberInFilter', 'asc')->get();
+     
             return view('admin.char', [
                 'admin'=>session('admin'),
                 'accessLevel'=>session('accessLevel'),
                 'category'=>Categories::find($id),
-                'charList'=>CharOfCat::where('category', '=', $id)->get()
+                'charList'=>$characteristics,
+                'valueList'=>ValueOfChar::all()
             ]);
+            
         }
     }
 
+    public function addChar($id, Request $request)
+    {
+        $rewiev = new CharOfCat();
+        $rewiev->category = $id;
+        $rewiev->tittle = $request->input('tittle');
+        $rewiev->numberInFilter = $request->input('numberInFilter');
+        $rewiev->save();
+
+        return redirect(route('admCategoriesChar', $id));
+    }
+
+    public function addCharValue(Request $request, $categoryId, $charId)
+    {
+        $rewiew = new ValueOfChar();
+        $rewiew->char = $charId;
+        $rewiew->value = $request->input('value');
+        $rewiew->numberInFilter = $request->input('numberInFilter');
+        $rewiew->save();
+
+        return redirect(route('admCategoriesChar', [
+            'id'=>$categoryId,
+        ]));
+    }
 
 
 

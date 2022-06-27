@@ -17,6 +17,7 @@ class CreateCharOfCatsTable extends Migration
             $table->id();
             $table->foreignId('category')->references('id')->on('categories');
             $table->string('tittle');
+            $table->integer('numberInFilter');
             $table->timestamps();
         });
     }

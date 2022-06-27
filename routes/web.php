@@ -39,6 +39,12 @@ Route::get('/admin/adm/category/remove_category/{id}', [AdminController::class, 
 
 Route::post('/admin/adm/products/add_product', [AdminController::class, 'addProduct'])->name('addProduct');
 
+Route::post('/admin/adm/category/{id}/char/addChar', [AdminController::class, 'addChar'])->name('addChar');
+Route::post(
+    '/admin/adm/category/{id}/char/addValue/{charId}', 
+    [AdminController::class, 'addCharValue'
+    ])->name('addCharValue');
+
 
 //Dev
 // Route::get('/admin/reg', [AdminController::class, 'reg']);

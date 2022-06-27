@@ -17,7 +17,34 @@ Categories
         @foreach ($data as $item)
         <div class="row">
             <strong class="col-md-5">{{ $item->tittle }}</strong>
-            <a class="col-md-2" href="{{ route('admCategoriesChar', $item->id) }}"><button type="button" class="btn btn-outline-success">Characteristic</button></a>
+            <button type="button" class="btn btn-outline-success col-md-2" data-bs-toggle="modal" data-bs-target="#charModal-{{ $item->id }}">Characteristics</button>
+            <div class="modal fade" id="charModal-{{ $item->id }}" tabindex="-1" aria-labelledby="charModalLabel-{{ $item->tittle }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header text-dark">
+                            <h5 class="modal-title text-center" id="charModalLabel-{{ $item->tittle }}">
+                                <strong>Characteristics of {{ $item->tittle }}</strong>
+                            </h5>
+                        </div>
+                        <div class="modal-body text-dark">
+                        <div>
+                            <a class="row" href="{{ route('admCategoriesChar', $item->id) }}"><button type="button" class="btn btn-outline-success">Manage characteristic</button></a>
+                            <hr>
+                            <div class="text-center">
+                                @foreach ($charList as $char)
+                                    @if ($char->category == $item->id)
+                                        <strong> |{{ $char->tittle }}| </strong>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <button type="button" class="btn btn-outline-warning col-md-2" data-bs-toggle="modal" data-bs-target="#changeModal-{{ $item->id }}">Change tittle</button>
             <div class="modal fade" id="changeModal-{{ $item->id }}" tabindex="-1" aria-labelledby="changeModalLabel-{{ $item->tittle }}" aria-hidden="true">
                 <div class="modal-dialog">
