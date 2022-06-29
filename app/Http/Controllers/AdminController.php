@@ -26,51 +26,43 @@ class AdminController extends Controller
 
         $data = Admin::where('login', '=', $login)->where('password', '=', $password)->first();
 
-        if ($data != null)
-        {
-            session(['admin'=>'true', 'accessLevel'=>$data->accessLevel]);
+        if ($data != null) {
+            session(['admin' => 'true', 'accessLevel' => $data->accessLevel]);
             return redirect('/admin/adm/mainAdm');
-        }
-        else
-        {
+        } else {
             return view('admin.login');
         }
     }
 
-    public function mainAdm(Request $request) 
+    public function mainAdm(Request $request)
     {
-        if (session('admin') != null)
-        {
-            return view('admin.mainAdm', ['admin'=>session('admin'), 'accessLevel'=>session('accessLevel')]);
-        }
-        elseif (session(('admin') == null))
-        {
+        if (session('admin') != null) {
+            return view('admin.mainAdm', ['admin' => session('admin'), 'accessLevel' => session('accessLevel')]);
+        } elseif (session(('admin') == null)) {
             return view('admin.login');
         }
     }
 
     public function categories()
     {
-        if (session('admin') != null)
-        {
+        if (session('admin') != null) {
             return view('admin.category', [
-                'admin'=>session('admin'), 
-                'accessLevel'=>session('accessLevel'),
-                'data'=>Categories::all(),
-                'charList'=>CharOfCat::all()
+                'admin' => session('admin'),
+                'accessLevel' => session('accessLevel'),
+                'data' => Categories::all(),
+                'charList' => CharOfCat::all()
             ]);
         }
     }
 
     public function products()
     {
-        if (session('admin') != null)
-        {
+        if (session('admin') != null) {
             return view('admin.products', [
-                'admin'=>session('admin'), 
-                'accessLevel'=>session('accessLevel'),
-                'categoriesList'=>Categories::all(),
-                'productsList'=>Products::all()
+                'admin' => session('admin'),
+                'accessLevel' => session('accessLevel'),
+                'categoriesList' => Categories::all(),
+                'productsList' => Products::all()
             ]);
         }
     }
@@ -82,10 +74,10 @@ class AdminController extends Controller
         $review->save();
 
         return redirect(route('admCategories', [
-            'admin'=>session('admin'), 
-            'accessLevel'=>session('accessLevel'),
-            'categoriesList'=>Categories::all(),
-            'productsList'=>Products::all()
+            'admin' => session('admin'),
+            'accessLevel' => session('accessLevel'),
+            'categoriesList' => Categories::all(),
+            'productsList' => Products::all()
         ]));
     }
 
@@ -109,11 +101,15 @@ class AdminController extends Controller
     {
         $review = new Products();
 
-        $price = $request-> input('price');
+        $price = $request->input('price');
         $isAvailable = $request->input('isAvailable');
-        if ($isAvailable != 1) { $isAvailable = 0; }
+        if ($isAvailable != 1) {
+            $isAvailable = 0;
+        }
         $isFavorite = $request->input('isFavorite');
-        if ($isFavorite != 1) { $isFavorite = 0; }
+        if ($isFavorite != 1) {
+            $isFavorite = 0;
+        }
 
         $path = $request->file('mainImg')->store('products', 'public') ?? null;
         $path_1 = $request->file('img_1') ?? null;
@@ -149,39 +145,56 @@ class AdminController extends Controller
 
             $review->save();
 
-            if ($path_1 != null) { $path_1->store('products', 'public'); }
-            if ($path_2 != null) { $path_2->store('products', 'public'); }
-            if ($path_3 != null) { $path_3->store('products', 'public'); }
-            if ($path_4 != null) { $path_4->store('products', 'public'); }
-            if ($path_5 != null) { $path_5->store('products', 'public'); }
-            if ($path_6 != null) { $path_6->store('products', 'public'); }
-            if ($path_7 != null) { $path_7->store('products', 'public'); }
-            if ($path_8 != null) { $path_8->store('products', 'public'); }
-            if ($path_9 != null) { $path_9->store('products', 'public'); }
-            if ($path_10 != null) { $path_10->store('products', 'public'); }
+            if ($path_1 != null) {
+                $path_1->store('products', 'public');
+            }
+            if ($path_2 != null) {
+                $path_2->store('products', 'public');
+            }
+            if ($path_3 != null) {
+                $path_3->store('products', 'public');
+            }
+            if ($path_4 != null) {
+                $path_4->store('products', 'public');
+            }
+            if ($path_5 != null) {
+                $path_5->store('products', 'public');
+            }
+            if ($path_6 != null) {
+                $path_6->store('products', 'public');
+            }
+            if ($path_7 != null) {
+                $path_7->store('products', 'public');
+            }
+            if ($path_8 != null) {
+                $path_8->store('products', 'public');
+            }
+            if ($path_9 != null) {
+                $path_9->store('products', 'public');
+            }
+            if ($path_10 != null) {
+                $path_10->store('products', 'public');
+            }
 
             return redirect(route('admProducts'));
-        }
-        catch(Exception $e) 
-        { 
-            echo $e->getMessage(); 
+        } catch (Exception $e) {
+            echo $e->getMessage();
         }
     }
 
     public function admCategoriesChar($id)
     {
-        if (session('admin') != null)
-        {
+        if (session('admin') != null) {
             $characteristics = CharOfCat::where('category', '=', $id)->orderBy('numberInFilter', 'asc')->get();
-     
+
             return view('admin.char', [
-                'admin'=>session('admin'),
-                'accessLevel'=>session('accessLevel'),
-                'category'=>Categories::find($id),
-                'charList'=>$characteristics,
-                'valueList'=>ValueOfChar::all()
+                'admin' => session('admin'),
+                'accessLevel' => session('accessLevel'),
+                'category' => Categories::find($id),
+                'charList' => $characteristics,
+                'valueList' => ValueOfChar::all()
             ]);
-            
+
         }
     }
 
@@ -205,11 +218,77 @@ class AdminController extends Controller
         $rewiew->save();
 
         return redirect(route('admCategoriesChar', [
-            'id'=>$categoryId,
+            'id' => $categoryId,
         ]));
     }
 
+    public function changeChar(Request $request, $categoryId, $charId)
+    {
+        $review = CharOfCat::find($charId);
+        $review->tittle = $request->input('tittle');
+        $review->save();
 
+        return redirect(route('admCategoriesChar', ['id' => $categoryId]));
+    }
+
+    public function removeChar(Request $request, $categoryId, $charId)
+    {
+        CharOfCat::find($charId)->delete();
+
+        return redirect(route('admCategoriesChar', ['id' => $categoryId]));
+    }
+
+    public function admCharValues($categoryId, $charId)
+    {
+        if (session('admin') != null) {
+            $char = CharOfCat::find($charId);
+            $values = ValueOfChar::where('char', '=', $charId)->orderBy('numberInFilter', 'asc')->get();
+            return view('admin.charValues', [
+                'valuesList' => $values,
+                'char' => $char,
+                'admin' => session('admin'),
+                'accessLevel' => session('accessLevel'),
+                'categoryId' => $categoryId
+            ]);
+        }
+    }
+
+    public function changeValue(Request $request, $categoryId, $charId, $valueId)
+    {
+        $review = ValueOfChar::find($valueId);
+        $review->value = $request->input('value');
+        $review->save();
+
+        return redirect(route('admCharValues', [
+            'id'=>$categoryId,
+            'charId'=>$charId
+        ]));
+    }
+
+    public function removeValue($categoryId, $charId, $valueId)
+    {
+        ValueOfChar::find($valueId)->delete();
+
+        return redirect(route('admCharValues', [
+            'id'=>$categoryId,
+            'charId'=>$charId
+        ]));
+    }
+
+    public function addValue(Request $request, $categoryId, $charId)
+    {
+        $review = new ValueOfChar();
+        $review->char = $charId;
+        $review->value = $request->input('value');
+        $review->numberInFilter = $request->input('numberInFilter');
+        $review->save();
+
+        return redirect(route('admCharValues', [
+            'id'=>$categoryId,
+            'charId'=>$charId
+        ]));
+    }
+}
 
     //Dev
     // public function reg()
@@ -226,4 +305,4 @@ class AdminController extends Controller
 
     //     $review->save();
     // }
-}
+

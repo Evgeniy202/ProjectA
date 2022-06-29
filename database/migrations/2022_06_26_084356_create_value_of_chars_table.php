@@ -15,7 +15,10 @@ class CreateValueOfCharsTable extends Migration
     {
         Schema::create('value_of_chars', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('char')->references('id')->on('char_of_cats'); 
+            $table->foreignId('char')
+                ->references('id')
+                ->on('char_of_cats')
+                ->onDelete('cascade');
             $table->string('value');
             $table->integer('numberInFilter')->nullable();
             $table->timestamps();

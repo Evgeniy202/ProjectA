@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class ValueOfChar extends Model
 {
     use HasFactory;
-    
-    protected $fillable = ['id', 'charOfCat', 'value', 'numberInFilter'];
+
+    protected $fillable = ['id', 'char', 'value', 'numberInFilter'];
 }

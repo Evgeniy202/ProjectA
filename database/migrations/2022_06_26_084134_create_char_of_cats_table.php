@@ -15,7 +15,10 @@ class CreateCharOfCatsTable extends Migration
     {
         Schema::create('char_of_cats', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category')->references('id')->on('categories');
+            $table->foreignId('category')
+                ->references('id')
+                ->on('categories')
+                ->onDelete('cascade');
             $table->string('tittle');
             $table->integer('numberInFilter');
             $table->timestamps();

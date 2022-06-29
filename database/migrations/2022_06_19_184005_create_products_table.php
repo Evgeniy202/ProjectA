@@ -13,9 +13,14 @@ class CreateProductsTable extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('products');
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category')->references('id')->on('categories');
+            $table->unsignedBigInteger('category');
+            $table->foreign('category')
+                ->references('id')
+                ->on('categories')
+                ->onDelete('cascade');
             $table->string('tittle');
             $table->string('slug');
             $table->string('description');

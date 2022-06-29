@@ -15,9 +15,15 @@ class CreateCharOfProdsTable extends Migration
     {
         Schema::create('char_of_prods', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('char')->references('id')->on('char_of_cats');
-            $table->foreignId('value')->references('id')->on('value_of_chars');
-            $table->timestamps(); 
+            $table->foreignId('char')
+                ->references('id')
+                ->on('char_of_cats')
+                ->onDelete('cascade');
+            $table->foreignId('value')
+                ->references('id')
+                ->on('value_of_chars')
+                ->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
