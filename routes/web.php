@@ -48,6 +48,8 @@ Route::get('/admin/adm/category/remove_category/{id}', [AdminController::class, 
 
 Route::post('/admin/adm/products/add_product', [AdminController::class, 'addProduct'])
     ->name('addProduct');
+Route::get('/admin/adm/products/add_product/{categoryId}', [AdminController::class, 'productOfCategory'])
+    ->name('productOfCategory');
 
 Route::post('/admin/adm/category/{id}/char/addChar', [AdminController::class, 'addChar'])
     ->name('addChar');

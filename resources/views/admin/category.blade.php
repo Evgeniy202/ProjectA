@@ -72,8 +72,9 @@
                                             <form action="{{ route('changeCategory', $item->id) }}" method="POST">
                                                 @csrf
                                                 <div class="form-group mt-3">
-                                                    <input style="text-align: center" type="text" name="tittle"
-                                                           id="tittle" placeholder="Tittle..." class="form-control"
+                                                    <input type="text" name="tittle"
+                                                           id="tittle" placeholder="Tittle..."
+                                                           class="form-control text-center"
                                                            value="{{ $item->tittle }}">
                                                 </div>
                                                 <hr>

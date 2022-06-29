@@ -67,6 +67,18 @@ class AdminController extends Controller
         }
     }
 
+    public function productOfCategory($categoryId)
+    {
+        if (session('admin') != null) {
+            return view('admin.productsOfCategory', [
+                'admin' => session('admin'),
+                'accessLevel' => session('accessLevel'),
+                'category' => Categories::find($categoryId),
+                'productsList' => Products::where('category', '=', $categoryId)->get()
+            ]);
+        }
+    }
+
     public function addCategory(Request $request)
     {
         $review = new Categories();
