@@ -20,7 +20,7 @@ class CreateValueOfCharsTable extends Migration
                 ->on('char_of_cats')
                 ->onDelete('cascade');
             $table->string('value');
-            $table->integer('numberInFilter')->nullable();
+            $table->integer('numberInFilter');
             $table->timestamps();
         });
     }

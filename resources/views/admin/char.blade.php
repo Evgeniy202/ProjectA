@@ -9,7 +9,7 @@
             <hr>
             <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
                     data-bs-target="#orderDetails-">
-                Add new characteristics
+                Add new characteristic
             </button>
             <hr class="mt-3 mb-3">
         </div>
@@ -28,12 +28,13 @@
                             <form action="{{ route('addChar', $category->id) }}" method="POST">
                                 @csrf
                                 <div class="form-group mt-3">
-                                    <input style="text-align: center" type="text" name="tittle" id="tittle"
-                                           placeholder="Tittle..." class="form-control">
+                                    <input type="text" name="tittle" id="tittle"
+                                           placeholder="Tittle..." class="form-control text-center">
                                 </div>
                                 <div class="form-group mt-3">
-                                    <input style="text-align: center" type="text" name="numberInFilter"
-                                           id="numberInFilter" placeholder="Number in filter..." class="form-control">
+                                    <input type="text" name="numberInFilter"
+                                           id="numberInFilter" placeholder="Number in filter..."
+                                           class="form-control text-center">
                                 </div>
                                 <hr>
                                 <input type="submit" class="btn btn-success btn-block col-12" value="Add">

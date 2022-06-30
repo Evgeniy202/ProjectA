@@ -50,6 +50,8 @@ Route::post('/admin/adm/products/add_product', [AdminController::class, 'addProd
     ->name('addProduct');
 Route::get('/admin/adm/products/add_product/{categoryId}', [AdminController::class, 'productOfCategory'])
     ->name('productOfCategory');
+Route::get('/admin/adm/products/add_char/{productId}', [AdminController::class, 'addCharToProductView'])
+    ->name('addCharToProductView');
 
 Route::post('/admin/adm/category/{id}/char/addChar', [AdminController::class, 'addChar'])
     ->name('addChar');

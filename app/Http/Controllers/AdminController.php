@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Categories;
 use App\Models\CharOfCat;
+use App\Models\CharOfProd;
 use App\Models\Products;
 use App\Models\ValueOfChar;
-use Dotenv\Parser\Value;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use SebastianBergmann\Type\Exception;
@@ -188,9 +188,31 @@ class AdminController extends Controller
                 $path_10->store('products', 'public');
             }
 
-            return redirect(route('admProducts'));
+            $product = Products::latest()->first();
+
+            return redirect(route('addCharToProductView', $product->id));
         } catch (Exception $e) {
             echo $e->getMessage();
+        }
+    }
+
+    public function  addCharToProductView($productId)
+    {
+        if (session('admin') != null) {
+            $product = Products::find($productId);
+            $prodChars = CharOfProd::where('product', '=', $productId);
+            $chars = CharOfCat::where('category', '=', $product->category)->orderBy('numberInFilter', 'asc')->get();
+            $values = ValueOfChar::all();
+
+            return view('admin.addCharToProd', [
+                'admin' => session('admin'),
+                'accessLevel' => session('accessLevel'),
+                'productId'=>$product->id,
+                'product'=>$product,
+                'charsList'=>$chars,
+                'valuesList'=>$values,
+                'prodCharsList'=>$prodChars
+            ]);
         }
     }
 
@@ -206,7 +228,6 @@ class AdminController extends Controller
                 'charList' => $characteristics,
                 'valueList' => ValueOfChar::all()
             ]);
-
         }
     }
 

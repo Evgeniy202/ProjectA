@@ -15,6 +15,10 @@ class CreateCharOfProdsTable extends Migration
     {
         Schema::create('char_of_prods', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product')
+                ->references('id')
+                ->on('products')
+                ->onDelete('cascade');
             $table->foreignId('char')
                 ->references('id')
                 ->on('char_of_cats')
@@ -23,6 +27,7 @@ class CreateCharOfProdsTable extends Migration
                 ->references('id')
                 ->on('value_of_chars')
                 ->onDelete('cascade');
+            $table->integer('numInList');
             $table->timestamps();
         });
     }

@@ -9,5 +9,5 @@ class CharOfProd extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'char', 'value'];
+    protected $fillable = ['id', 'product', 'char', 'value', 'numInList'];
 }

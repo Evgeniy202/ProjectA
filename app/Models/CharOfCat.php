@@ -9,5 +9,5 @@ class CharOfCat extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'category', 'tittle'];
+    protected $fillable = ['id', 'category', 'tittle', 'numberInFilter'];
 }
