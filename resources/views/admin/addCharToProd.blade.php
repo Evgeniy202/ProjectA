@@ -4,6 +4,7 @@
         Add characteristics to {{ $product->tittle }}
     @endsection
     @section('content')
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <div class="row">
             <h3 class="col-md-10">Characteristics of {{ $product->tittle }}</h3>
             <hr>
@@ -25,10 +26,11 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <form action="{{ route('addChar', $product->id) }}" method="POST">
+                            <form action="{{ route('addCharToProduct', $product->id) }}" method="POST">
                                 @csrf
                                 <div class="form-group mt-3">
-                                    <select name="char">
+                                    <select name="char" class="form-control text-center" id="char">
+                                        <option>-Select characteristic-</option>
                                         @foreach ($charsList as $char)
                                             <option value="{{ $char->id }}"
                                                     data-class="{{ $char->id }}">{{ $char->tittle }}</option>
@@ -36,19 +38,40 @@
                                     </select>
                                 </div>
                                 <div class="form-group mt-3">
-                                    <select name="value">
-                                        @foreach ($valuesList as $value)
-                                            <option value="{{ $value->id }}">{{ $value->value }}</option>
-                                        @endforeach
+                                    <select name="value" class="form-control text-center" id="value">
                                     </select>
-                                </div>
-                                <div class="form-group mt-3">
-                                    <input type="text" name="numberInFilter"
-                                           id="numberInFilter" placeholder="Number in filter..."
-                                           class="form-control text-center">
                                 </div>
                                 <hr>
                                 <input type="submit" class="btn btn-success btn-block col-12" value="Add">
+                                <script>
+                                    $(document).ready(function () {
+                                        $('#char').on('change', function () {
+                                            var charID = $(this).val();
+                                            if (charID) {
+                                                $.ajax({
+                                                    url: '/admin/adm/products/add_char/{{ $productId }}/' + charID,
+                                                    type: "GET",
+                                                    data: {"_token": "{{ csrf_token() }}"},
+                                                    dataType: "json",
+                                                    success: function (data) {
+                                                        if (data) {
+                                                            $('#value').empty();
+                                                            $('#value').focus;
+                                                            $('#value').append('<option value="">-Select value of characteristic-</option>');
+                                                            $.each(data, function (key, value) {
+                                                                $('select[name="value"]').append('<option value="' + value.id + '">' + value.value + '</option>');
+                                                            });
+                                                        } else {
+                                                            $('#value').empty();
+                                                        }
+                                                    }
+                                                });
+                                            } else {
+                                                $('#value').empty();
+                                            }
+                                        });
+                                    });
+                                </script>
                             </form>
                         </div>
                     </div>
@@ -57,31 +80,25 @@
         </div>
         <div class="row">
             <h6 class="col-md-1">Number in list</h6>
-            <h6 class="col-md-4">Tittle</h6>
-            <h6 class="col-md-7">Value</h6>
+            <h6 class="col-md-3">Tittle</h6>
+            <h6 class="col-md-8">Value</h6>
             <hr class="mb-5">
         </div>
         <div class="row">
-            @foreach($charsList as $char)
-                <hr>
-                <strong class="col-md-1">{{ $char->numberInFilter }}</strong>
-                <a class="btn btn-outline-warning col-md-2 ">{{ $char->tittle }}</a>
-                @if(!isset($prodCharsList))
-                    @foreach($prodCharsList as $prodChar)
-                        @if($prodChar->char == $char->id)
-                            @foreach($valuesList as $value)
-                                @if($value->id == $prodChar->$value)
-                                    <strong class="col-md-9">{{ $value->value }}</strong>
-                                @endif
-                            @endforeach
-                        @else
-                            <strong class="col-md-9"></strong>
-                        @endif
-                    @endforeach
-                @else
-                    <strong class="col-md-9"></strong>
-                @endif
-                <hr>
+            @foreach($prodCharsList as $prodChar)
+                @foreach($charsList as $char)
+                    @if($prodChar->char == $char->id)
+                        @foreach($valuesList as $value)
+                            @if($value->id == $prodChar->value)
+                                <hr>
+                                <strong class="col-md-1">{{ $char->numberInFilter }}</strong>
+                                <strong class="col-md-3 ">{{ $char->tittle }}</strong>
+                                <p class="col-md-8">{{ $value->value }}</p>
+                                <hr>
+                            @endif
+                        @endforeach
+                    @endif
+                @endforeach
             @endforeach
         </div>
     @endsection

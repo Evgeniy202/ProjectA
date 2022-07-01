@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -53,6 +54,9 @@ Route::get('/admin/adm/products/add_product/{categoryId}', [AdminController::cla
 Route::get('/admin/adm/products/add_char/{productId}', [AdminController::class, 'addCharToProductView'])
     ->name('addCharToProductView');
 
+Route::post('/admin/adm/products/add_char/{productId}/addCharToProduct',
+    [AdminController::class, 'addCharToProduct'])
+    ->name('addCharToProduct');
 Route::post('/admin/adm/category/{id}/char/addChar', [AdminController::class, 'addChar'])
     ->name('addChar');
 Route::post(
@@ -68,6 +72,10 @@ Route::get('/admin/adm/category/{id}/char/{charId}/values/{valueId}/remove', [Ad
     ->name('removeValue');
 Route::post('admin/adm/category/{id}/char/{charId}/values/addNewValue', [AdminController::class, 'addValue'])
     ->name('addValue');
+
+//AJAX
+Route::get('/admin/adm/products/add_char/{productId}/{charId}', [AjaxController::class, 'findCharValue'])
+    ->name('findCharValue');
 
 
 //Dev

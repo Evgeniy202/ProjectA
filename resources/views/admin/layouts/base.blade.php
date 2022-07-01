@@ -23,7 +23,7 @@
             <div class="container">
                 <a class="navbar-brand" href="{{ route('home') }}">
                     ProjectA
-                </a> 
+                </a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">

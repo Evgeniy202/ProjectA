@@ -196,11 +196,11 @@ class AdminController extends Controller
         }
     }
 
-    public function  addCharToProductView($productId)
+    public function addCharToProductView($productId)
     {
         if (session('admin') != null) {
             $product = Products::find($productId);
-            $prodChars = CharOfProd::where('product', '=', $productId);
+            $prodChars = CharOfProd::where('product', $productId)->get();
             $chars = CharOfCat::where('category', '=', $product->category)->orderBy('numberInFilter', 'asc')->get();
             $values = ValueOfChar::all();
 
@@ -214,6 +214,18 @@ class AdminController extends Controller
                 'prodCharsList'=>$prodChars
             ]);
         }
+    }
+
+    public function addCharToProduct(Request $request, $productId)
+    {
+        $review = new CharOfProd();
+
+        $review->product = $productId;
+        $review->char = $request->input('char');
+        $review->value = $request->input('value');
+        $review->save();
+
+        return redirect(route('addCharToProductView', $productId));
     }
 
     public function admCategoriesChar($id)
@@ -313,7 +325,6 @@ class AdminController extends Controller
         $review = new ValueOfChar();
         $review->char = $charId;
         $review->value = $request->input('value');
-        $review->numberInFilter = $request->input('numberInFilter');
         $review->save();
 
         return redirect(route('admCharValues', [
