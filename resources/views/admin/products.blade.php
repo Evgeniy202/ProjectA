@@ -23,7 +23,7 @@
                             <form action="{{ route('addProduct') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group mt-3">
-                                    <select name="category">
+                                    <select class="form-control text-center" name="category">
                                         @foreach ($categoriesList as $item)
                                             <option value="{{ $item->id }}">{{ $item->tittle }}</option>
                                         @endforeach

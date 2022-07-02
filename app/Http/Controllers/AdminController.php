@@ -37,7 +37,9 @@ class AdminController extends Controller
     public function mainAdm(Request $request)
     {
         if (session('admin') != null) {
-            return view('admin.mainAdm', ['admin' => session('admin'), 'accessLevel' => session('accessLevel')]);
+            return view('admin.mainAdm',
+                ['admin' => session('admin'), 'accessLevel' => session('accessLevel')]
+            );
         } elseif (session(('admin') == null)) {
             return view('admin.login');
         }
@@ -228,6 +230,22 @@ class AdminController extends Controller
         return redirect(route('addCharToProductView', $productId));
     }
 
+    public function changeCharToProduct(Request $request, $productId, $prodCharId)
+    {
+        $review = CharOfProd::find($prodCharId);
+        $review->value = $request->input('changeValue');
+        $review->save();
+
+        return redirect(route('addCharToProductView', $productId));
+    }
+
+    public function removeCharToProduct($productId, $prodCharId)
+    {
+        CharOfProd::find($prodCharId)->delete();
+
+        return redirect(route('addCharToProductView', $productId));
+    }
+
     public function admCategoriesChar($id)
     {
         if (session('admin') != null) {
@@ -325,6 +343,7 @@ class AdminController extends Controller
         $review = new ValueOfChar();
         $review->char = $charId;
         $review->value = $request->input('value');
+        $review->numberInFilter = $request->input('numberInFilter');
         $review->save();
 
         return redirect(route('admCharValues', [

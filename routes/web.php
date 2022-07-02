@@ -57,6 +57,12 @@ Route::get('/admin/adm/products/add_char/{productId}', [AdminController::class, 
 Route::post('/admin/adm/products/add_char/{productId}/addCharToProduct',
     [AdminController::class, 'addCharToProduct'])
     ->name('addCharToProduct');
+Route::post('/admin/adm/products/add_char/{productId}/change/{prodCharId}',
+    [AdminController::class, 'changeCharToProduct'])
+    ->name('changeCharToProduct');
+Route::get('/admin/adm/products/add_char/{productId}/remove/{prodCharId}',
+    [AdminController::class, 'removeCharToProduct'])
+    ->name('removeCharToProduct');
 Route::post('/admin/adm/category/{id}/char/addChar', [AdminController::class, 'addChar'])
     ->name('addChar');
 Route::post(
