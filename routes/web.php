@@ -39,6 +39,8 @@ Route::get('/admin/adm/category/{id}/char/{charId}/values', [AdminController::cl
     ->name('admCharValues');
 Route::get('/admin/adm/products', [AdminController::class, 'products'])
     ->name('admProducts');
+Route::get('/admin/adm/products/{productId}', [AdminController::class, 'admProductDetails'])
+    ->name('admProductDetails');
 
 Route::post('/admin/adm/category/add_category', [AdminController::class, 'addCategory'])
     ->name('addCategory');
@@ -49,10 +51,14 @@ Route::get('/admin/adm/category/remove_category/{id}', [AdminController::class, 
 
 Route::post('/admin/adm/products/add_product', [AdminController::class, 'addProduct'])
     ->name('addProduct');
-Route::get('/admin/adm/products/add_product/{categoryId}', [AdminController::class, 'productOfCategory'])
+Route::get('/admin/adm/products/products_category/{categoryId}', [AdminController::class, 'productOfCategory'])
     ->name('productOfCategory');
 Route::get('/admin/adm/products/add_char/{productId}', [AdminController::class, 'addCharToProductView'])
     ->name('addCharToProductView');
+Route::post('/admin/adm/products/{productId}/change', [AdminController::class, 'changeProduct'])
+    ->name('changeProduct');
+Route::get('/admin/adm/products/{productId}/{categoryId}/remove', [AdminController::class, 'removeProduct'])
+    ->name('removeProduct');
 
 Route::post('/admin/adm/products/add_char/{productId}/addCharToProduct',
     [AdminController::class, 'addCharToProduct'])

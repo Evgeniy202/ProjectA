@@ -28,13 +28,13 @@
                                     method="POST">
                                     @csrf
                                     <div class="form-group mt-3">
-                                        <input style="text-align: center" type="text" name="value" id="value"
-                                               placeholder="Value..." class="form-control">
+                                        <input type="text" name="value" id="value"
+                                               placeholder="Value..." class="form-control text-center">
                                     </div>
                                     <div class="form-group mt-3">
-                                        <input style="text-align: center" type="text" name="numberInFilter"
+                                        <input type="text" name="numberInFilter"
                                                id="numberInFilter" placeholder="Number in filter..."
-                                               class="form-control">
+                                               class="form-control text-center">
                                     </div>
                                     <hr>
                                     <input type="submit" class="btn btn-success btn-block col-12" value="Add">

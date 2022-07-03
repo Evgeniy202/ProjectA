@@ -23,7 +23,7 @@
                             <form action="{{ route('addProduct') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-group mt-3">
-                                    <select class="form-control text-center" name="category">
+                                    <select class="form-control text-center btn-outline-secondary" name="category">
                                         @foreach ($categoriesList as $item)
                                             <option value="{{ $item->id }}">{{ $item->tittle }}</option>
                                         @endforeach
@@ -37,7 +37,7 @@
                                                class="form-control">
                                     </div>
                                     <div class="form-group mt-3">
-                                        <textarea name="description" id="description" cols="50" rows="10"
+                                        <textarea class="form-control" name="description" id="description" rows="10"
                                                   placeholder="Description..."></textarea>
                                     </div>
                                     <div class="form-group mt-3">

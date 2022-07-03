@@ -17,7 +17,7 @@
             <hr class="mb-4">
             @foreach($productsList as $product)
                 <hr>
-                <a href="#" class="col-md-4 btn btn-outline-warning">{{ $product->tittle }}</a>
+                <a href="{{ route('admProductDetails', $product->id) }}" class="col-md-4 btn btn-outline-warning">{{ $product->tittle }}</a>
                 <p class="col-md-2">{{ $product->price }}$</p>
                 <strong class="col-md-2">
                     @if($product->isAvailable == 1)

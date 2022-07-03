@@ -10,6 +10,7 @@ use App\Models\Products;
 use App\Models\ValueOfChar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Storage;
 use SebastianBergmann\Type\Exception;
 
 class AdminController extends Controller
@@ -71,7 +72,8 @@ class AdminController extends Controller
 
     public function productOfCategory($categoryId)
     {
-        if (session('admin') != null) {
+        if (session('admin') != null)
+        {
             return view('admin.productsOfCategory', [
                 'admin' => session('admin'),
                 'accessLevel' => session('accessLevel'),
@@ -79,6 +81,52 @@ class AdminController extends Controller
                 'productsList' => Products::where('category', '=', $categoryId)->get()
             ]);
         }
+    }
+
+    public function admProductDetails($productId)
+    {
+        if (session('admin') != null)
+        {
+            $charsList = [];
+            $valuesList = [];
+
+            $product = Products::find($productId);
+            $charsOfProd = CharOfProd::where('product', $productId)->get();
+            $charsOfCategory = CharOfCat::all();
+            $values = ValueOfChar::all();
+
+            foreach ($charsOfProd as $charOfProd)
+            {
+                foreach ($charsOfCategory as $charOfCategory)
+                {
+                    if ($charOfProd->char == $charOfCategory->id)
+                    {
+                        array_push($charsList, $charOfCategory);
+                    }
+                }
+                foreach ($values as $value)
+                {
+                    if ($charOfProd->value == $value->id)
+                    {
+                        array_push($valuesList, $value);
+                    }
+                }
+            }
+
+            return view('admin.productDetails', [
+                'productId'=>$productId,
+                'product'=>$product,
+                'charsList'=>$charsList,
+                'valuesList'=>$valuesList
+            ]);
+        }
+    }
+
+    public function removeProduct($productId, $categoryId)
+    {
+        Products::find($productId)->delete();
+
+        return redirect(route('productOfCategory', $categoryId));
     }
 
     public function addCategory(Request $request)
@@ -125,6 +173,14 @@ class AdminController extends Controller
             $isFavorite = 0;
         }
 
+        $review->category = $request->input('category');
+        $review->tittle = $request->input('tittle');
+        $review->slug = $request->input('slug');
+        $review->description = $request->input('description');
+        $review->price = round((float)$price, 2);
+        $review->isAvailable = $isAvailable;
+        $review->isFavorite = $isFavorite;
+
         $path = $request->file('mainImg')->store('products', 'public') ?? null;
         $path_1 = $request->file('img_1') ?? null;
         $path_2 = $request->file('img_2') ?? null;
@@ -137,72 +193,146 @@ class AdminController extends Controller
         $path_9 = $request->file('img_9') ?? null;
         $path_10 = $request->file('img_10') ?? null;
 
-        try {
-            $review->category = $request->input('category');
-            $review->tittle = $request->input('tittle');
-            $review->slug = $request->input('slug');
-            $review->description = $request->input('description');
-            $review->price = round((float)$price, 2);
-            $review->isAvailable = $isAvailable;
-            $review->isFavorite = $isFavorite;
-            $review->mainImage = $path;
-            $review->img_1 = $path_1;
-            $review->img_2 = $path_2;
-            $review->img_3 = $path_3;
-            $review->img_4 = $path_4;
-            $review->img_5 = $path_5;
-            $review->img_6 = $path_6;
-            $review->img_7 = $path_7;
-            $review->img_8 = $path_8;
-            $review->img_9 = $path_9;
-            $review->img_10 = $path_10;
-
-            $review->save();
-
-            if ($path_1 != null) {
-                $path_1->store('products', 'public');
-            }
-            if ($path_2 != null) {
-                $path_2->store('products', 'public');
-            }
-            if ($path_3 != null) {
-                $path_3->store('products', 'public');
-            }
-            if ($path_4 != null) {
-                $path_4->store('products', 'public');
-            }
-            if ($path_5 != null) {
-                $path_5->store('products', 'public');
-            }
-            if ($path_6 != null) {
-                $path_6->store('products', 'public');
-            }
-            if ($path_7 != null) {
-                $path_7->store('products', 'public');
-            }
-            if ($path_8 != null) {
-                $path_8->store('products', 'public');
-            }
-            if ($path_9 != null) {
-                $path_9->store('products', 'public');
-            }
-            if ($path_10 != null) {
-                $path_10->store('products', 'public');
-            }
-
-            $product = Products::latest()->first();
-
-            return redirect(route('addCharToProductView', $product->id));
-        } catch (Exception $e) {
-            echo $e->getMessage();
+        if ($path_1 != null) {
+            $path_1 = $path_1->store('products', 'public');
         }
+        if ($path_2 != null) {
+            $path_2 = $path_2->store('products', 'public');
+        }
+        if ($path_3 != null) {
+            $path_3 = $path_3->store('products', 'public');
+        }
+        if ($path_4 != null) {
+            $path_4 = $path_4->store('products', 'public');
+        }
+        if ($path_5 != null) {
+            $path_5 = $path_5->store('products', 'public');
+        }
+        if ($path_6 != null) {
+            $path_6 = $path_6->store('products', 'public');
+        }
+        if ($path_7 != null) {
+            $path_7 = $path_7->store('products', 'public');
+        }
+        if ($path_8 != null) {
+            $path_8 = $path_8->store('products', 'public');
+        }
+        if ($path_9 != null) {
+            $path_9 = $path_9->store('products', 'public');
+        }
+        if ($path_10 != null) {
+            $path_10 = $path_10->store('products', 'public');
+        }
+
+        $review->mainImage = $path;
+        $review->img_1 = $path_1;
+        $review->img_2 = $path_2;
+        $review->img_3 = $path_3;
+        $review->img_4 = $path_4;
+        $review->img_5 = $path_5;
+        $review->img_6 = $path_6;
+        $review->img_7 = $path_7;
+        $review->img_8 = $path_8;
+        $review->img_9 = $path_9;
+        $review->img_10 = $path_10;
+
+        $review->save();
+
+        $product = Products::latest()->first();
+
+        return redirect(route('addCharToProductView', $product->id));
+
+    }
+
+    public function changeProduct(Request $request, $productId)
+    {
+        $review = Products::find($productId);
+
+        $price = $request->input('price');
+        $isAvailable = $request->input('isAvailable');
+        if ($isAvailable != 1) {
+            $isAvailable = 0;
+        }
+        $isFavorite = $request->input('isFavorite');
+        if ($isFavorite != 1) {
+            $isFavorite = 0;
+        }
+
+        $review->tittle = $request->input('tittle');
+        $review->slug = $request->input('slug');
+        $review->description = $request->input('description');
+        $review->price = round((float)$price, 2);
+        $review->isAvailable = $isAvailable;
+        $review->isFavorite = $isFavorite;
+
+        $path = $request->file('mainImg') ?? null;
+        $path_1 = $request->file('img_1') ?? null;
+        $path_2 = $request->file('img_2') ?? null;
+        $path_3 = $request->file('img_3') ?? null;
+        $path_4 = $request->file('img_4') ?? null;
+        $path_5 = $request->file('img_5') ?? null;
+        $path_6 = $request->file('img_6') ?? null;
+        $path_7 = $request->file('img_7') ?? null;
+        $path_8 = $request->file('img_8') ?? null;
+        $path_9 = $request->file('img_9') ?? null;
+        $path_10 = $request->file('img_10') ?? null;
+
+        if (($path != null) && ($path != $review->mainImage)){
+            Storage::disk('public')->delete($review->mainImage);
+            $path = $path->store('products', 'public');
+            $review->mainImage = $path;
+        }
+        if (($path_1 != null) && ($path_1 != $review->img_1)) {
+            $path_1 = $path_1->store('products', 'public');
+            $review->img_1 = $path_1;
+        }
+        if (($path_2 != null) && ($path_2 != $review->img_2)) {
+            $path_2 = $path_2->store('products', 'public');
+            $review->img_2 = $path_2;
+        }
+        if (($path_3 != null) && ($path_3 != $review->img_3)) {
+            $path_3 = $path_3->store('products', 'public');
+            $review->img_3 = $path_3;
+        }
+        if (($path_4 != null) && ($path_4 != $review->img_4)) {
+            $path_4 = $path_4->store('products', 'public');
+            $review->img_4 = $path_4;
+        }
+        if (($path_5 != null) && ($path_5 != $review->img_5)) {
+            $path_5 = $path_5->store('products', 'public');
+            $review->img_5 = $path_5;
+        }
+        if (($path_6 != null) && ($path_6 != $review->img_6)) {
+            $path_6 = $path_6->store('products', 'public');
+            $review->img_6 = $path_6;
+        }
+        if (($path_7 != null) && ($path_7 != $review->img_7)) {
+            $path_7 = $path_7->store('products', 'public');
+            $review->img_7 = $path_7;
+        }
+        if (($path_8 != null) && ($path_8 != $review->img_8)) {
+            $path_8 = $path_8->store('products', 'public');
+            $review->img_8 = $path_8;
+        }
+        if (($path_9 != null) && ($path_9 != $review->img_9)) {
+            $path_9 = $path_9->store('products', 'public');
+            $review->img_9 = $path_9;
+        }
+        if (($path_10 != null) && ($path_10 != $review->img_10)) {
+            $path_10 = $path_10->store('products', 'public');
+            $review->img_10 = $path_10;
+        }
+
+        $review->save();
+
+        return redirect(route('admProductDetails', $productId));
     }
 
     public function addCharToProductView($productId)
     {
         if (session('admin') != null) {
             $product = Products::find($productId);
-            $prodChars = CharOfProd::where('product', $productId)->get();
+            $prodChars = CharOfProd::where('product', $productId)->orderBy('numberInList', 'asc')->get();
             $chars = CharOfCat::where('category', '=', $product->category)->orderBy('numberInFilter', 'asc')->get();
             $values = ValueOfChar::all();
 
@@ -225,6 +355,7 @@ class AdminController extends Controller
         $review->product = $productId;
         $review->char = $request->input('char');
         $review->value = $request->input('value');
+        $review->numberInList = $request->input('numberInList');
         $review->save();
 
         return redirect(route('addCharToProductView', $productId));
@@ -232,8 +363,17 @@ class AdminController extends Controller
 
     public function changeCharToProduct(Request $request, $productId, $prodCharId)
     {
+        $newValue = $request->input('changeValue') ?? null;
+        $newNumInList = $request->input('numberInList') ?? null;
         $review = CharOfProd::find($prodCharId);
-        $review->value = $request->input('changeValue');
+        if (($newValue != null) && ($newValue != $review->value))
+        {
+            $review->value = $newValue;
+        }
+        if (($newNumInList != null) && ($newNumInList != $review->numberInList))
+        {
+            $review->numberInList = $newNumInList;
+        }
         $review->save();
 
         return redirect(route('addCharToProductView', $productId));

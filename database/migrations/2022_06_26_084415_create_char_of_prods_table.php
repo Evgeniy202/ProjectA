@@ -27,6 +27,8 @@ class CreateCharOfProdsTable extends Migration
                 ->references('id')
                 ->on('value_of_chars')
                 ->onDelete('cascade');
+            $table->bigInteger('numberInList')
+                ->nullable();
             $table->timestamps();
         });
     }

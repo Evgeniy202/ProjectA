@@ -52,6 +52,11 @@
                                     <select name="value" class="form-control text-center" id="value">
                                     </select>
                                 </div>
+                                <div class="form-group mt-3">
+                                    <input type="text" name="numberInList" id="numberInList"
+                                           placeholder="Number in list"
+                                           class="form-control text-center">
+                                </div>
                                 <hr>
                                 <input type="submit" class="btn btn-success btn-block col-12" value="Add">
                                 <script>
@@ -102,7 +107,7 @@
                         @foreach($valuesList as $value)
                             @if($value->id == $prodChar->value)
                                 <hr>
-                                <strong class="col-md-1">{{ $char->numberInFilter }}</strong>
+                                <strong class="col-md-1">{{ $prodChar->numberInList }}</strong>
                                 <strong class="col-md-3 ">{{ $char->tittle }}</strong>
                                 <p class="col-md-5">{{ $value->value }}</p>
                                 <button type="button" class="btn btn-outline-warning col-md-2" data-bs-toggle="modal"
@@ -136,6 +141,11 @@
                                                                     @endif
                                                                 @endforeach
                                                             </select>
+                                                        </div>
+                                                        <div class="form-group mt-3">
+                                                            <input type="text" name="numberInList" id="numberInList"
+                                                                   placeholder="Number in list" value="{{ $prodChar->numberInList }}"
+                                                                    class="form-control text-center">
                                                         </div>
                                                         <hr>
                                                         <input type="submit" class="btn btn-warning btn-block col-12"
