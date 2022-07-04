@@ -126,46 +126,16 @@ class AdminController extends Controller
     {
         $review = Products::find($productId);
 
-        if (!empty($review->mainImg))
-        {
-            Storage::disk('public')->delete($review->mainImage);
-        }
-        if (!empty($review->img_1))
-        {
-            Storage::disk('public')->delete($review->img_1);
-        }
-        if (!empty($review->img_2))
-        {
-            Storage::disk('public')->delete($review->img_2);
-        }
-        if (!empty($review->img_3))
-        {
-            Storage::disk('public')->delete($review->img_3);
-        }
-        if (!empty($review->img_4))
-        {
-            Storage::disk('public')->delete($review->img_4);
-        }
-        if (!empty($review->img_5))
-        {
-            Storage::disk('public')->delete($review->img_5);
-        }
-        if (!empty($review->img_6))
-        {
-            Storage::disk('public')->delete($review->img_6);
-        }
-        if (!empty($review->img_8))
-        {
-            Storage::disk('public')->delete($review->img_8);
-        }
-        if (!empty($review->img_9))
-        {
-            Storage::disk('public')->delete($review->img_9);
-        }
-        if (!empty($review->img_10))
-        {
-            Storage::disk('public')->delete($review->img_10);
-        }
+        Storage::disk('public')->delete($review->mainImage);
+        Storage::disk('public')->delete($review->img_1);
+        Storage::disk('public')->delete($review->img_2);
+        Storage::disk('public')->delete($review->img_3);
+        Storage::disk('public')->delete($review->img_4);
+        Storage::disk('public')->delete($review->img_5);
+        Storage::disk('public')->delete($review->img_6);
+        Storage::disk('public')->delete($review->img_8);
+        Storage::disk('public')->delete($review->img_9);
+        Storage::disk('public')->delete($review->img_10);
 
         $review->delete();
 
@@ -206,7 +176,7 @@ class AdminController extends Controller
     {
         $review = new Products();
 
-        $price = $request->input('price');
+        $price = (float)str_replace(',', '.', $request->input('price'));
 
         $isAvailable = $request->input('isAvailable');
         if ($isAvailable != 1) {
@@ -292,7 +262,8 @@ class AdminController extends Controller
     {
         $review = Products::find($productId);
 
-        $price = $request->input('price');
+        $price = (float)str_replace(',', '.', $request->input('price'));
+
         $isAvailable = $request->input('isAvailable');
         if ($isAvailable != 1) {
             $isAvailable = 0;

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\FindController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -53,6 +54,8 @@ Route::post('/admin/adm/products/add_product', [AdminController::class, 'addProd
     ->name('addProduct');
 Route::get('/admin/adm/products/products_category/{categoryId}', [AdminController::class, 'productOfCategory'])
     ->name('productOfCategory');
+Route::get('/admin/adm/products/products_category/{categoryId}/search', [FindController::class, 'SearchProdInCat'])
+    ->name('SearchProdInCat');
 Route::get('/admin/adm/products/add_char/{productId}', [AdminController::class, 'addCharToProductView'])
     ->name('addCharToProductView');
 Route::post('/admin/adm/products/{productId}/change', [AdminController::class, 'changeProduct'])
