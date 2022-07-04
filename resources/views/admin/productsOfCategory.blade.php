@@ -36,6 +36,9 @@
                 <img style="max-width: 100px" class="col-md-2" src="{{ asset('/storage/' . $product->mainImage) }}" alt="{{ $product->tittle }}">
                 <hr>
             @endforeach
+            <div class="d-flex justify-content-center">
+                {{ $productsList->links() }}
+            </div>
         </div>
     @endsection
 @endif

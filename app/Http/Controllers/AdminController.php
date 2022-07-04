@@ -78,7 +78,7 @@ class AdminController extends Controller
                 'admin' => session('admin'),
                 'accessLevel' => session('accessLevel'),
                 'category' => Categories::find($categoryId),
-                'productsList' => Products::where('category', '=', $categoryId)->get()
+                'productsList' => Products::where('category', $categoryId)->paginate(20)
             ]);
         }
     }
@@ -124,7 +124,50 @@ class AdminController extends Controller
 
     public function removeProduct($productId, $categoryId)
     {
-        Products::find($productId)->delete();
+        $review = Products::find($productId);
+
+        if (!empty($review->mainImg))
+        {
+            Storage::disk('public')->delete($review->mainImage);
+        }
+        if (!empty($review->img_1))
+        {
+            Storage::disk('public')->delete($review->img_1);
+        }
+        if (!empty($review->img_2))
+        {
+            Storage::disk('public')->delete($review->img_2);
+        }
+        if (!empty($review->img_3))
+        {
+            Storage::disk('public')->delete($review->img_3);
+        }
+        if (!empty($review->img_4))
+        {
+            Storage::disk('public')->delete($review->img_4);
+        }
+        if (!empty($review->img_5))
+        {
+            Storage::disk('public')->delete($review->img_5);
+        }
+        if (!empty($review->img_6))
+        {
+            Storage::disk('public')->delete($review->img_6);
+        }
+        if (!empty($review->img_8))
+        {
+            Storage::disk('public')->delete($review->img_8);
+        }
+        if (!empty($review->img_9))
+        {
+            Storage::disk('public')->delete($review->img_9);
+        }
+        if (!empty($review->img_10))
+        {
+            Storage::disk('public')->delete($review->img_10);
+        }
+
+        $review->delete();
 
         return redirect(route('productOfCategory', $categoryId));
     }
@@ -164,6 +207,7 @@ class AdminController extends Controller
         $review = new Products();
 
         $price = $request->input('price');
+
         $isAvailable = $request->input('isAvailable');
         if ($isAvailable != 1) {
             $isAvailable = 0;
@@ -177,7 +221,7 @@ class AdminController extends Controller
         $review->tittle = $request->input('tittle');
         $review->slug = $request->input('slug');
         $review->description = $request->input('description');
-        $review->price = round((float)$price, 2);
+        $review->price = round($price, 2);
         $review->isAvailable = $isAvailable;
         $review->isFavorite = $isFavorite;
 
@@ -261,7 +305,7 @@ class AdminController extends Controller
         $review->tittle = $request->input('tittle');
         $review->slug = $request->input('slug');
         $review->description = $request->input('description');
-        $review->price = round((float)$price, 2);
+        $review->price = round($price, 2);
         $review->isAvailable = $isAvailable;
         $review->isFavorite = $isFavorite;
 
