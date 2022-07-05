@@ -10,19 +10,23 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes(['verify' => true]);
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])
+    ->name('home');
 
 Route::get('about', function () {
     return view('about');
 })->name('about');
 
-Route::get('support', function () {
-    return view('support');
-})->middleware('verified')->name('support');
+Route::middleware(['verified'])->group(function () {
+    Route::get('support', function () {
+        return view('support');
+    })->name('support');
 
-Route::get('profile', function () {
-    return view('profile');
-})->middleware('verified')->name('profile');
+    Route::get('profile', function () {
+        return view('profile');
+    })->name('profile');
+});
+
 
 
 /////////////Admin//////////////////

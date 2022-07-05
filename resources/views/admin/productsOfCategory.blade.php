@@ -45,7 +45,7 @@
                         -
                     @endif
                 </strong>
-                <img style="max-width: 100px" class="col-md-2" src="{{ asset('/storage/' . $product->mainImage) }}"
+                <img style="max-width: 60px" class="col-md-2" src="{{ asset('/storage/' . $product->mainImage) }}"
                      alt="{{ $product->tittle }}">
                 <hr>
             @endforeach

@@ -23,7 +23,7 @@ class CreateProductsTable extends Migration
                 ->onDelete('cascade');
             $table->string('tittle');
             $table->string('slug');
-            $table->string('description');
+            $table->longText('description');
             $table->decimal('price');
             $table->boolean('isAvailable');
             $table->boolean('isFavorite');
