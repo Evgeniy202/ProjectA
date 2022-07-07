@@ -25,6 +25,8 @@
     <link href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" rel="stylesheet"/>
 
+    @yield('head')
+
 </head>
 <body class="bg-dark text-white">
 <div id="app">

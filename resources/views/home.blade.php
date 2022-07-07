@@ -5,32 +5,43 @@
 @endsection
 
 @section('content')
-    <section class="py-1">
-        <div class="container px-4 px-lg-5 mt-2">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+    <section class="padding-y">
+        <div class="container">
+
+            <header class="section-heading">
+                <h3 class="section-title">Favorite products</h3>
+            </header>
+
+            <div class="row">
                 @foreach($productsList as $product)
-                    <div class="col mb-5">
-                        <div class="card h-100">
-                            <a href="#">
-                                <img class="card-img-top img-thumbnail w-50 m-lg-5"
-                                     src="{{ asset('/storage/'.$product->mainImage) }}"
-                                     alt="{{ $product->tittle }}"/>
-                            </a>
-                            <div class="card-body p-4 row align-items-end">
-                                <div class="text-center">
-                                    <a href="#">
-                                        <h6>{{ $product->tittle }}</h6>
-                                    </a>
-                                    {{ $product->price }} $
-                                    <br>
-                                    <a class="btn btn-outline-dark mt-auto"
-                                       href="#">Додати до кошика</a>
-                                </div>
+                    <div class="col-lg-2 col-md-5 col-sm-5 bg-gradient m-3 ">
+                        <figure class="card-product-grid">
+                            <div class="bg-light rounded mt-2">
+                                <a href="{{ route('productDetail', $product->id) }}"
+                                   class="img-wrap rounded bg-gray-light">
+                                    <img height="100" class="mix-blend-multiply mt-4 m-5 rounded"
+                                         src="{{ asset('/storage/'.$product->mainImage) }}">
+                                </a>
                             </div>
-                        </div>
-                    </div>
+                            <figcaption class="pt-2">
+                                <a href="{{ route('productDetail', $product->id) }}"
+                                   class="float-end btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
+
+                                <a href="{{ route('productDetail', $product->id) }}"
+                                   class="title">{{ $product->tittle }}</a>
+                                <br>
+                                @foreach($categoriesList as $category)
+                                    @if($category->id == $product->category)
+                                        <small class="text-muted">{{ $category->tittle }}</small>
+                                    @endif
+                                @endforeach
+                                <br>
+                                <strong class="price">{{ $product->price }} $</strong> <!-- price.// -->
+                            </figcaption>
+                        </figure>
+                    </div> <!-- col end.// -->
                 @endforeach
-            </div>
-        </div>
+            </div> <!-- row end.// -->
+        </div> <!-- container end.// -->
     </section>
 @endsection

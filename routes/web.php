@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\FindController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,6 +17,9 @@ Route::get('/', [HomeController::class, 'index'])
 Route::get('about', function () {
     return view('about');
 })->name('about');
+
+Route::get('product/{productId}', [ProductController::class, 'productDetail'])
+    ->name('productDetail');
 
 Route::middleware(['verified'])->group(function () {
     Route::get('support', function () {

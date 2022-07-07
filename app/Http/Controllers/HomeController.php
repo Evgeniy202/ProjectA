@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
 use App\Models\Products;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,7 @@ class HomeController extends Controller
                 ->where('isAvailable', 1)
                 ->where('isFavorite', 1)
                 ->get(),
+            'categoriesList' => Categories::all(),
         ]);
     }
 }
