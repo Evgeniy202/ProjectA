@@ -5,6 +5,7 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\FindController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoriesController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -20,6 +21,11 @@ Route::get('about', function () {
 
 Route::get('product/{productId}', [ProductController::class, 'productDetail'])
     ->name('productDetail');
+
+Route::get('category/{categoryId}', [CategoriesController::class, 'prodOfCatView'])
+    ->name('prodOfCatView');
+Route::get('category/{categoryId}/search', [FindController::class, 'SearchProdInCat'])
+    ->name('SearchProdInCat');
 
 Route::middleware(['verified'])->group(function () {
     Route::get('support', function () {
@@ -62,8 +68,8 @@ Route::post('/admin/adm/products/add_product', [AdminController::class, 'addProd
     ->name('addProduct');
 Route::get('/admin/adm/products/products_category/{categoryId}', [AdminController::class, 'productOfCategory'])
     ->name('productOfCategory');
-Route::get('/admin/adm/products/products_category/{categoryId}/search', [FindController::class, 'SearchProdInCat'])
-    ->name('SearchProdInCat');
+Route::get('/admin/adm/products/products_category/{categoryId}/search', [FindController::class, 'SearchProdInCatAdm'])
+    ->name('SearchProdInCatAdm');
 Route::get('/admin/adm/products/add_char/{productId}', [AdminController::class, 'addCharToProductView'])
     ->name('addCharToProductView');
 Route::post('/admin/adm/products/{productId}/change', [AdminController::class, 'changeProduct'])

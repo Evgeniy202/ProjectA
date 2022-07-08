@@ -14,7 +14,7 @@
 
             <div class="row">
                 @foreach($productsList as $product)
-                    <div class="col-lg-2 col-md-5 col-sm-5 bg-gradient m-3 ">
+                    <div class="col-lg-2 col-md-5 col-sm-5 bg-gradient m-3">
                         <figure class="card-product-grid">
                             <div class="bg-light rounded mt-2">
                                 <a href="{{ route('productDetail', $product->id) }}"

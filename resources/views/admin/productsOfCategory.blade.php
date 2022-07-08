@@ -5,15 +5,13 @@
     @endsection
     @section('content')
         <form class="form-inline mt-2 mt-md-0 row mb-4" method="GET"
-              action="{{ route('SearchProdInCat', ['categoryId'=>$category->id]) }}">
+              action="{{ route('SearchProdInCatAdm', ['categoryId'=>$category->id]) }}">
             <input name="search" id="search" class="mr-sm-2 col-md-9 bg-light" type="text" placeholder="Search"
                    aria-label="Search">
             <button class="btn btn-outline-primary my-2 my-sm-0 col-md-2" type="submit">Search</button>
             <a href="{{ route('productOfCategory', $category->id) }}"
                     class="btn btn-outline-secondary my-2 my-sm-0 col-md-1">Reset
             </a>
-
-            {{--            productOfCategory--}}
         </form>
         <div class="row">
             <h3 class="col-md-10">Products of {{ $category->tittle }}</h3>

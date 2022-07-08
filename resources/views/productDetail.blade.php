@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('tittle')
-    {{$product->tittle}}
+    {{ $product->tittle }}
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                 <li class="breadcrumb-item"><a
-                        href="#">{{ $category->tittle }}</a></li>
+                        href="{{ route('prodOfCatView', $category->id) }}">{{ $category->tittle }}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{ $product->tittle }}</li>
             </ol>
         </nav>
