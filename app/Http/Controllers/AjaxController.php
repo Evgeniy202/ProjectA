@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Categories;
+use App\Models\CharOfCat;
+use App\Models\Products;
 use App\Models\ValueOfChar;
 use Illuminate\Http\Request;
 

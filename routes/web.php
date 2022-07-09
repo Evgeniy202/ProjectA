@@ -26,6 +26,8 @@ Route::get('category/{categoryId}', [CategoriesController::class, 'prodOfCatView
     ->name('prodOfCatView');
 Route::get('category/{categoryId}/search', [FindController::class, 'SearchProdInCat'])
     ->name('SearchProdInCat');
+Route::get('/category/{categoryId}/{sort}', [CategoriesController::class, 'sortProducts'])
+    ->name('sortProducts');
 
 Route::middleware(['verified'])->group(function () {
     Route::get('support', function () {

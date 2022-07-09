@@ -75,12 +75,32 @@
                 <header class="d-sm-flex align-items-center border-bottom mb-4 pb-3">
                     <h3 class="d-block py-2">{{ $category->tittle }}</h3>
                     <div class="ms-auto">
-                        <select class="form-select d-inline-block w-auto">
-                            <option value="3">Randomly</option>
-                            <option value="0">Expensive at first</option>
-                            <option value="1">Cheap at first</option>
+                        <select name="meth" id="meth" class="form-select d-inline-block w-auto">
+                            @foreach($sortList as $sort)
+                                <option value="{{ $sort['val'] }}">{{ $sort['tittle'] }}</option>
+                            @endforeach
                         </select>
                     </div>
+                    <script
+                        src="https://code.jquery.com/jquery-3.6.0.js"
+                        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+                        crossorigin="anonymous"></script>
+                    <script>
+                        $(document).ready(function () {
+                            $('#meth').on('change', function () {
+                                var sort = $(this).val();
+                                if (sort) {
+                                    window.location.replace("/category/{{ $category->id }}/" + sort);
+                                }
+                            });
+                        });
+                        // var request = new XMLHttpRequest();
+                        // var select = document.getElementById("meth");
+                        // var sort = select.options[sel.@selectedIndex].value;
+                        //
+                        // request.open('GET', '/category/{categoryId}/' + sort);
+                        // request.send();
+                    </script>
                 </header>
                 <!-- ========= content items ========= -->
                 <div class="row">
