@@ -28,6 +28,8 @@ Route::get('category/{categoryId}/search', [FindController::class, 'SearchProdIn
     ->name('SearchProdInCat');
 Route::get('/category/{categoryId}/{sort}', [CategoriesController::class, 'sortProducts'])
     ->name('sortProducts');
+Route::get('category/{categoryId}/filter', [CategoriesController::class, 'filterProduct'])
+    ->name('filterProduct');
 
 Route::middleware(['verified'])->group(function () {
     Route::get('support', function () {

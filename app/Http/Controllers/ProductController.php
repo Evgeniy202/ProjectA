@@ -14,7 +14,8 @@ class ProductController extends Controller
     public function productDetail($productId)
     {
         $product = Products::query()->find($productId);
-        $category = Categories::query()->find($product->category);
+        $categories = Categories::all();
+        $category = $categories->find($product->category);
         $charsOfProd = CharOfProd::query()
             ->where('product', $productId)
             ->orderBy('numberInList', 'asc')
@@ -23,6 +24,7 @@ class ProductController extends Controller
         return view('productDetail', [
             'product' => $product,
             'category' => $category,
+            'categoriesList' => $categories,
             'charsOfProd' => $charsOfProd,
             'charsList' => CharOfCat::query()
                 ->where('category', $category->id)

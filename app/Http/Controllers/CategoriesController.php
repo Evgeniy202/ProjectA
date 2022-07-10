@@ -7,11 +7,17 @@ use App\Models\CharOfCat;
 use App\Models\Products;
 use App\Models\ValueOfChar;
 use Illuminate\Http\Request;
+use App\Filters\filterOfCategory;
 
 class CategoriesController extends Controller
 {
-    public function prodOfCatView($categoryId)
+    public function prodOfCatView($categoryId, Request $request)
     {
+        if (!empty($request->all())){
+            $answer = new filterOfCategory();
+            $answer->filter($request->all());
+        }
+
         return view('prodOfCategory', [
             'sortList' => [
                 ['val' => 'rand', 'tittle' => 'Randomly'],
