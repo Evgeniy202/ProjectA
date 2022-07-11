@@ -42,6 +42,11 @@ class FindController extends Controller
             ->paginate(9);
 
         return view('prodOfCategory', [
+            'sortList' => [
+                ['val' => 'rand', 'tittle' => 'Randomly'],
+                ['val' => 'exp', 'tittle' => 'Expensive at first'],
+                ['val' => 'ch', 'tittle' => 'Cheap at firs'],
+            ],
             'category' => Categories::query()
                 ->find($categoryId),
             'categoriesList' => Categories::all(),

@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row">
             <form class="input-group mb-4" method="GET"
-                  action="{{ route('SearchProdInCat', ['categoryId'=>$category->id]) }}">
+                  action="{{ route('SearchProdInCat', $category->id) }}">
                 <input name="search" id="search" class="mr-sm-2 col-md-9 bg-light form-control" type="text"
                        placeholder="Search"
                        aria-label="Search">
@@ -42,7 +42,7 @@
                                                     <input id="{{ $char->id }}-{{ $value->id }}"
                                                            name="{{ $char->id }}-{{ $value->id }}"
                                                            class="form-check-input" type="checkbox"
-                                                           value="{{ $value->id }}">
+                                                           value="{{ $char->id }}-{{ $value->id }}">
                                                     <span class="form-check-label"> {{ $value->value }} </span>
                                                 </label> <!-- form-check end.// -->
                                             @endif
@@ -64,13 +64,13 @@
                                             <div class="col-6">
                                                 <label for="min" class="form-label">Min</label>
                                                 <input class="form-control" name="min" id="min" placeholder="$0"
-                                                       type="number">
+                                                       type="number" value="0">
                                             </div> <!-- col end.// -->
 
                                             <div class="col-6">
                                                 <label for="max" class="form-label">Max</label>
                                                 <input class="form-control" name="max" id="max" placeholder="$1,0000"
-                                                       type="number">
+                                                       type="number" value="0">
                                             </div> <!-- col end.// -->
                                         </div> <!-- row end.// -->
                                     </div> <!-- card-body.// -->
@@ -97,7 +97,7 @@
                             $('#meth').on('change', function () {
                                 var sort = $(this).val();
                                 if (sort) {
-                                    window.location.replace("/category/{{ $category->id }}/" + sort);
+                                    window.location.replace("/category/{{ $category->id }}?sort=" + sort);
                                 }
                             });
                         });
