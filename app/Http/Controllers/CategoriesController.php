@@ -13,20 +13,10 @@ class CategoriesController extends Controller
 {
     public function prodOfCatView($categoryId, FilterRequest $request)
     {
-        $products = Products::query()
-            ->where('category', $categoryId)
-            ->inRandomOrder()
-            ->paginate(9);
-
-        $sortList = [
-            ['val' => 'rand', 'tittle' => 'Randomly'],
-            ['val' => 'exp', 'tittle' => 'Expensive at first'],
-            ['val' => 'ch', 'tittle' => 'Cheap at firs'],
-        ];
-
         if (!empty($request->all())){
             $answer = new filterOfCategory();
-            $products = $answer->filter($categoryId, $request);
+            $context = $answer->filter($categoryId, $request);
+            $products = $context['products'];
         }
 
         if ($request->filled('sort'))
@@ -44,38 +34,57 @@ class CategoriesController extends Controller
                         ['val' => 'ch', 'tittle' => 'Cheap at firs'],
                         ['val' => 'rand', 'tittle' => 'Randomly'],
                     ];
-                    $products = Products::query()
-                        ->where('category', $categoryId)
-                        ->orderBy('price', 'desc')
-                        ->paginate(9);
+                    $products = $products
+                        ->orderBy('price', 'desc');
                 } else if ($sort == 'ch') {
                     $sortList = [
                         ['val' => 'ch', 'tittle' => 'Cheap at firs'],
                         ['val' => 'rand', 'tittle' => 'Randomly'],
                         ['val' => 'exp', 'tittle' => 'Expensive at first'],
                     ];
-                    $products = Products::query()
-                        ->where('category', $categoryId)
-                        ->orderBy('price', 'asc')
-                        ->paginate(9);
+                    $products = $products
+                        ->orderBy('price', 'asc');
                 }
             }
         }
-    dd($request);
+        elseif (!$request->filled('sort'))
+        {
+            if (!empty($products))
+            {
+                $products = $products->inRandomOrder();
+            }
+            else
+            {
+                $products = Products::query()
+                    ->where('category', $categoryId)->inRandomOrder();
+            }
+
+            $sortList = [
+                ['val' => 'rand', 'tittle' => 'Randomly'],
+                ['val' => 'exp', 'tittle' => 'Expensive at first'],
+                ['val' => 'ch', 'tittle' => 'Cheap at firs'],
+            ];
+
+            $context['chars'] = CharOfCat::query()
+                ->where('category', $categoryId)
+                ->orderBy('numberInFilter', 'asc')
+                ->get();
+
+            $context['values'] = ValueOfChar::query()
+                ->orderBy('numberInFilter')
+                ->get();
+        }
+
         if (isset($products)) {
             return view('prodOfCategory', [
                 'sortList' => $sortList,
                 'category' => Categories::query()
                     ->find($categoryId),
                 'categoriesList' => Categories::all(),
-                'productsList' => $products,
-                'charsList' => CharOfCat::query()
-                    ->where('category', $categoryId)
-                    ->orderBy('numberInFilter', 'asc')
-                    ->get(),
-                'valuesList' => ValueOfChar::query()
-                    ->orderBy('numberInFilter', 'asc')
-                    ->get()
+                'productsList' => $products->paginate(9)->withPath('?'.$request->getQueryString()),
+                'charsList' => $context['chars'],
+                'valuesList' => $context['values'],
+                'productsFil' => $context['productsFil'] ?? null
             ]);
         }
     }

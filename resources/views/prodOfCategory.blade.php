@@ -51,31 +51,31 @@
                                 </div> <!-- collapse.// -->
                             </article>
                         @endforeach
-                            <article class="filter-group">
-                                <header class="card-header">
-                                    <a href="#" class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside2"
-                                       aria-expanded="true">
-                                        <i class="icon-control fa fa-chevron-down"></i> Price
-                                    </a>
-                                </header>
-                                <div class="collapse show" id="collapse_aside2" style="">
-                                    <div class="card-body">
-                                        <div class="row mb-3">
-                                            <div class="col-6">
-                                                <label for="min" class="form-label">Min</label>
-                                                <input class="form-control" name="min" id="min" placeholder="$0"
-                                                       type="number" value="0">
-                                            </div> <!-- col end.// -->
+                        <article class="filter-group">
+                            <header class="card-header">
+                                <a href="#" class="title" data-bs-toggle="collapse" data-bs-target="#collapse_aside2"
+                                   aria-expanded="true">
+                                    <i class="icon-control fa fa-chevron-down"></i> Price
+                                </a>
+                            </header>
+                            <div class="collapse show" id="collapse_aside2" style="">
+                                <div class="card-body">
+                                    <div class="row mb-3">
+                                        <div class="col-6">
+                                            <label for="min" class="form-label">Min</label>
+                                            <input class="form-control" name="min" id="min" placeholder="$0"
+                                                   type="number" value="0">
+                                        </div> <!-- col end.// -->
 
-                                            <div class="col-6">
-                                                <label for="max" class="form-label">Max</label>
-                                                <input class="form-control" name="max" id="max" placeholder="$1,0000"
-                                                       type="number" value="0">
-                                            </div> <!-- col end.// -->
-                                        </div> <!-- row end.// -->
-                                    </div> <!-- card-body.// -->
-                                </div> <!-- collapse.// -->
-                            </article> <!-- filter-group // -->
+                                        <div class="col-6">
+                                            <label for="max" class="form-label">Max</label>
+                                            <input class="form-control" name="max" id="max" placeholder="$1,0000"
+                                                   type="number" value="0">
+                                        </div> <!-- col end.// -->
+                                    </div> <!-- row end.// -->
+                                </div> <!-- card-body.// -->
+                            </div> <!-- collapse.// -->
+                        </article> <!-- filter-group // -->
                         <button class="btn btn-outline-success col-md-6 m-1" type="submit">Apply</button>
                         <button class="btn btn-outline-warning col-md-4 m-1" type="button">Reset</button>
                     </form>
@@ -105,30 +105,57 @@
                 </header>
                 <!-- ========= content items ========= -->
                 <div class="row">
-                    @foreach($productsList as $product)
-                        <div class="col-lg-3 col-md-5 col-sm-5 bg-gradient m-4">
-                            <figure class="card-product-grid">
-                                <div class="bg-light rounded mt-2">
-                                    <a href="{{ route('productDetail', $product->id) }}"
-                                       class="img-wrap rounded bg-gray-light">
-                                        <img height="100" class="mix-blend-multiply mt-4 m-5 rounded"
-                                             src="{{ asset('/storage/'.$product->mainImage) }}">
-                                    </a>
-                                </div>
-                                <figcaption class="pt-2">
-                                    <a href="{{ route('productDetail', $product->id) }}"
-                                       class="float-end btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
+                    @if(empty($productsFil))
+                        @foreach($productsList as $product)
+                            <div class="col-lg-3 col-md-5 col-sm-5 bg-gradient m-4">
+                                <figure class="card-product-grid">
+                                    <div class="bg-light rounded mt-2">
+                                        <a href="{{ route('productDetail', $product->id) }}"
+                                           class="img-wrap rounded bg-gray-light">
+                                            <img height="100" class="mix-blend-multiply mt-4 m-5 rounded"
+                                                 src="{{ asset('/storage/'.$product->mainImage) }}">
+                                        </a>
+                                    </div>
+                                    <figcaption class="pt-2">
+                                        <a href="{{ route('productDetail', $product->id) }}"
+                                           class="float-end btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
 
-                                    <a href="{{ route('productDetail', $product->id) }}"
-                                       class="title">{{ $product->tittle }}</a>
-                                    <br>
-                                    <small class="text-muted">{{ $category->tittle }}</small>
-                                    <br>
-                                    <strong class="price">{{ $product->price }} $</strong> <!-- price.// -->
-                                </figcaption>
-                            </figure>
-                        </div> <!-- col end.// -->
-                    @endforeach
+                                        <a href="{{ route('productDetail', $product->id) }}"
+                                           class="title">{{ $product->tittle }}</a>
+                                        <br>
+                                        <small class="text-muted">{{ $category->tittle }}</small>
+                                        <br>
+                                        <strong class="price">{{ $product->price }} $</strong> <!-- price.// -->
+                                    </figcaption>
+                                </figure>
+                            </div> <!-- col end.// -->
+                        @endforeach
+                    @else
+                        @foreach($productsFil as $productFil)
+                            <div class="col-lg-3 col-md-5 col-sm-5 bg-gradient m-4">
+                                <figure class="card-product-grid">
+                                    <div class="bg-light rounded mt-2">
+                                        <a href="{{ route('productDetail', $productFil->id) }}"
+                                           class="img-wrap rounded bg-gray-light">
+                                            <img height="100" class="mix-blend-multiply mt-4 m-5 rounded"
+                                                 src="{{ asset('/storage/'.$productFil->mainImage) }}">
+                                        </a>
+                                    </div>
+                                    <figcaption class="pt-2">
+                                        <a href="{{ route('productDetail', $productFil->id) }}"
+                                           class="float-end btn btn-light btn-icon"> <i class="fa fa-heart"></i> </a>
+
+                                        <a href="{{ route('productDetail', $productFil->id) }}"
+                                           class="title">{{ $productFil->tittle }}</a>
+                                        <br>
+                                        <small class="text-muted">{{ $productFil->tittle }}</small>
+                                        <br>
+                                        <strong class="price">{{ $productFil->price }} $</strong> <!-- price.// -->
+                                    </figcaption>
+                                </figure>
+                            </div> <!-- col end.// -->
+                        @endforeach
+                    @endif
                 </div> <!-- row end.// -->
                 <hr>
                 <footer class="d-flex mt-4">

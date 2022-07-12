@@ -12,9 +12,7 @@ class filterOfCategory
     public function filter($categoryId, $request)
     {
         $products = Products::query()
-            ->where('category', $categoryId)
-            ->orderBy('price', 'asc')
-            ->paginate(9);
+            ->where('category', $categoryId);
         $chars = CharOfCat::query()
             ->where('category', $categoryId)
             ->orderBy('numberInFilter', 'asc')
@@ -25,7 +23,7 @@ class filterOfCategory
         $charsOfProdAll = CharOfProd::all();
 
         $charsOfProd = [];
-        foreach ($products as $prod)
+        foreach ($products->get() as $prod)
         {
             array_push($charsOfProd, $charsOfProdAll->where('product', $prod->id));
         }
@@ -47,7 +45,6 @@ class filterOfCategory
             {
                 $object = explode('-', $object);
 
-
                 foreach ($charsOfProd as $charOfProd)
                 {
                     foreach ($charOfProd as $fil)
@@ -61,19 +58,23 @@ class filterOfCategory
 
             }
         }
-
-        $productsList = [];
+        $productsFil = collect();
         foreach ($filt as $res)
         {
-            foreach ($products as $product)
+            foreach ($products->get() as $product)
             {
                 if ($res->product == $product->id)
                 {
-                    array_push($productsList, $product);
+                    $productsFil->push($product);
                 }
             }
         }
 
-        return $products;
+        return [
+            'products' => $products,
+            'chars' => $chars,
+            'values' => $values,
+            'productsFil' => $productsFil
+        ];
     }
 }
