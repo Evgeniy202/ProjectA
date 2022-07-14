@@ -6,6 +6,7 @@ use App\Http\Controllers\FindController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\SelectedController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,6 +40,9 @@ Route::middleware(['verified'])->group(function () {
     Route::get('profile', function () {
         return view('profile');
     })->name('profile');
+
+    Route::get('choseOne/{user}/{product}', [SelectedController::class, 'choseOne'])
+        ->name('choseOne');
 });
 
 
@@ -109,6 +113,7 @@ Route::post('admin/adm/category/{id}/char/{charId}/values/addNewValue', [AdminCo
 //AJAX
 Route::get('/admin/adm/products/add_char/{productId}/{charId}', [AjaxController::class, 'findCharValue'])
     ->name('findCharValue');
+
 
 
 //Dev
