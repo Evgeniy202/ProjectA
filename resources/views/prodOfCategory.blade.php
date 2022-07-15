@@ -176,14 +176,26 @@
                     @endif
                 </div> <!-- row end.// -->
                 <hr>
-                @php
-                    dd($productsFil);
-                @endphp
+{{--                @php--}}
+{{--                    dd($productsFil);--}}
+{{--                @endphp--}}
                 <footer class="d-flex mt-4">
                     @if(empty($productsFil[0]))
                         {{ $productsList->links() }}
-                    @else
-                        {{ $productsFil->forPage($page, $perPage)->values() }}
+{{--                    @else--}}
+{{--                        <nav>--}}
+{{--                            <ul class="pagination">--}}
+
+{{--                                <li class="page-item disabled" aria-disabled="true" aria-label="« Previous">--}}
+{{--                                    <span class="page-link" aria-hidden="true">‹</span>--}}
+{{--                                </li>--}}
+{{--                                <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>--}}
+{{--                                <li class="page-item"><a class="page-link" href="?sort=exp&amp;page=2">2</a></li>--}}
+{{--                                <li class="page-item">--}}
+{{--                                    <a class="page-link" href="?sort=exp&amp;page=2" rel="next" aria-label="Next »">›</a>--}}
+{{--                                </li>--}}
+{{--                            </ul>--}}
+{{--                        </nav>--}}
                     @endif
                 </footer>
                 <!-- ========= content items .// ========= -->

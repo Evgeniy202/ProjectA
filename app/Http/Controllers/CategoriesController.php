@@ -8,8 +8,7 @@ use App\Models\Products;
 use App\Models\ValueOfChar;
 use App\Filters\filterOfCategory;
 use App\Http\Requests\FilterRequest;
-//use App\Support\Collection;
-use Illuminate\Support\Collection;
+use App\Filters\Pagination;
 
 class CategoriesController extends Controller
 {
@@ -19,6 +18,10 @@ class CategoriesController extends Controller
             $answer = new filterOfCategory();
             $context = $answer->filter($categoryId, $request);
             $products = $context['products'];
+
+            $paginate = new Pagination();
+            $productsFil = $paginate->pagination($context['productsFil'], 3);
+            $productsFilLinks = $paginate->links($productsFil->total(), $productsFil->perPage());
         }
 
         if ($request->filled('sort'))
@@ -76,26 +79,43 @@ class CategoriesController extends Controller
                 ->orderBy('numberInFilter')
                 ->get();
         }
-        $items = $context['productsFil'];
-        $perPage = 3;
-        $page = null;
-        $options = [];
-
-        $page = $page ?: (\Illuminate\Pagination\Paginator::resolveCurrentPage() ?: 1);
-        $items = $items instanceof \Illuminate\Support\Collection ? $items : \Illuminate\Support\Collection::make($items);
-        $productsFil = new \Illuminate\Pagination\LengthAwarePaginator(array_values($items->forPage($page, $perPage)->toArray()), $items->count(), $perPage, $page, $options);
+//        $items = $context['productsFil'];
+//        $perPage = 3;
+//        $page = null;
+//        $options = [];
+//
+//        $page = $page ?: (\Illuminate\Pagination\Paginator::resolveCurrentPage() ?: 1);
+//        $items = $items instanceof \Illuminate\Support\Collection ? $items : \Illuminate\Support\Collection::make($items);
+//        $productsFil = new \Illuminate\Pagination\LengthAwarePaginator(array_values($items->forPage($page, $perPage)->toArray()), $items->count(), $perPage, $page, $options);
 
         if (isset($products)) {
-            return view('prodOfCategory', [
-                'sortList' => $sortList,
-                'category' => Categories::query()
-                    ->find($categoryId),
-                'categoriesList' => Categories::all(),
-                'productsList' => $products->paginate(9)->withPath('?'.$request->getQueryString()),
-                'charsList' => $context['chars'],
-                'valuesList' => $context['values'],
-                'productsFil' => $productsFil ?? null
-            ]);
+            if (empty($productsFil) || ($request->filled('sort'))) {
+                return view('prodOfCategory', [
+                    'sortList' => $sortList,
+                    'category' => Categories::query()
+                        ->find($categoryId),
+                    'categoriesList' => Categories::all(),
+                    'productsList' => $products->paginate(9)->withPath('?' . $request->getQueryString()),
+                    'charsList' => $context['chars'],
+                    'valuesList' => $context['values'],
+                    'productsFil' => null,
+                    'productsFilLinks' => null
+                ]);
+            }
+            elseif (!empty($productsFil[0]))
+            {
+                return view('prodOfCategory', [
+                    'sortList' => $sortList,
+                    'category' => Categories::query()
+                        ->find($categoryId),
+                    'categoriesList' => Categories::all(),
+                    'productsList' => null,
+                    'charsList' => $context['chars'],
+                    'valuesList' => $context['values'],
+                    'productsFil' => $productsFil,
+                    'productsFilLinks' => $productsFilLinks
+                ]);
+            }
         }
     }
 
