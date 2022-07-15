@@ -79,14 +79,6 @@ class CategoriesController extends Controller
                 ->orderBy('numberInFilter')
                 ->get();
         }
-//        $items = $context['productsFil'];
-//        $perPage = 3;
-//        $page = null;
-//        $options = [];
-//
-//        $page = $page ?: (\Illuminate\Pagination\Paginator::resolveCurrentPage() ?: 1);
-//        $items = $items instanceof \Illuminate\Support\Collection ? $items : \Illuminate\Support\Collection::make($items);
-//        $productsFil = new \Illuminate\Pagination\LengthAwarePaginator(array_values($items->forPage($page, $perPage)->toArray()), $items->count(), $perPage, $page, $options);
 
         if (isset($products)) {
             if (empty($productsFil) || ($request->filled('sort'))) {
