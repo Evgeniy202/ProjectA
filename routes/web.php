@@ -43,6 +43,8 @@ Route::middleware(['verified'])->group(function () {
 
     Route::get('choseOne/{user}/{product}', [SelectedController::class, 'choseOne'])
         ->name('choseOne');
+    Route::get('removeChoseOne/{user}/{product}', [SelectedController::class, 'removeChoseOne'])
+        ->name('removeChoseOne');
 });
 
 

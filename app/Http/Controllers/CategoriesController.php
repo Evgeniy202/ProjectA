@@ -80,18 +80,32 @@ class CategoriesController extends Controller
                 ->get();
         }
 
+        $activeChars = [];
+        $active = explode('&', $request->getQueryString());
+
+        if (!empty($active[0]))
+        {
+            foreach ($active as $activeChar) {
+                $value = explode('=', $activeChar);
+                $activeChars[$value[0]] = $value[1];
+            }
+        }
+
         if (isset($products)) {
-            if (empty($productsFil) || ($request->filled('sort'))) {
+            if (empty($productsFil[0]) || ($request->filled('sort'))) {
                 return view('prodOfCategory', [
                     'sortList' => $sortList,
                     'category' => Categories::query()
                         ->find($categoryId),
                     'categoriesList' => Categories::all(),
-                    'productsList' => $products->paginate(9)->withPath('?' . $request->getQueryString()),
+                    'productsList' => $products
+                        ->paginate(9)
+                        ->withPath('?' . str_replace('page='.request()->page, '', $request->getQueryString())),
                     'charsList' => $context['chars'],
                     'valuesList' => $context['values'],
                     'productsFil' => null,
-                    'productsFilLinks' => null
+                    'productsFilLinks' => null,
+                    'activeChars' => $activeChars
                 ]);
             }
             elseif (!empty($productsFil[0]))
@@ -105,7 +119,8 @@ class CategoriesController extends Controller
                     'charsList' => $context['chars'],
                     'valuesList' => $context['values'],
                     'productsFil' => $productsFil,
-                    'productsFilLinks' => $productsFilLinks
+                    'productsFilLinks' => $productsFilLinks,
+                    'activeChars' => $activeChars
                 ]);
             }
         }

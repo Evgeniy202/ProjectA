@@ -18,4 +18,11 @@ class SelectedController extends Controller
 
         return redirect()->back();
     }
+
+    public function removeChoseOne($user, $product)
+    {
+        Selected::query()->where('user', $user)->where('product', $product)->delete();
+
+        return redirect()->back();
+    }
 }
