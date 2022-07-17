@@ -133,141 +133,150 @@
                 </header>
                 <!-- ========= content items ========= -->
                 <div class="row">
-                    @if(empty($productsFil[0]))
-                        @foreach($productsList as $product)
-                            <div class="col-lg-3 col-md-5 col-sm-5 bg-gradient m-4">
-                                <figure class="card-product-grid">
-                                    <div class="bg-light rounded mt-2">
-                                        <a href="{{ route('productDetail', $product->id) }}"
-                                           class="img-wrap rounded bg-gray-light">
-                                            <img height="100" class="mix-blend-multiply mt-4 m-5 rounded"
-                                                 src="{{ asset('/storage/'.$product->mainImage) }}">
-                                        </a>
-                                    </div>
-                                    <figcaption class="pt-2">
-                                        @if(in_array($product->id, $chosenOneArray))
-                                        <a id="selectBtn-{{ $product->id }}"
-                                           href="{{ route('removeChoseOne', ['user'=>Auth::user()->id, 'product'=>$product->id]) }}"
-                                           class="float-end btn btn-light btn-outline-danger active"><i
-                                                class="bi bi-heart">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13"
-                                                     fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-                                                </svg>
-                                            </i></a>
-                                        @else
-                                            <a id="selectBtn-{{ $product->id }}"
-                                               href="{{ route('choseOne', ['user'=>Auth::user()->id, 'product'=>$product->id]) }}"
-                                               class="float-end btn btn-light btn-outline-danger"><i
+                    @if(($productsFil == null) && (str_replace(['page='.request()->page, 'sort='.request()->page], '', request()->getQueryString())))
+                        <h3 class="text-center">Nothing found!</h3>
+                    @else
+                        @if(empty($productsFil[0]))
+                            @foreach($productsList as $product)
+                                <div class="col-lg-3 col-md-5 col-sm-5 bg-gradient m-4">
+                                    <figure class="card-product-grid">
+                                        <div class="bg-light rounded mt-2">
+                                            <a href="{{ route('productDetail', $product->id) }}"
+                                               class="img-wrap rounded bg-gray-light">
+                                                <img height="100" class="mix-blend-multiply mt-4 m-5 rounded"
+                                                     src="{{ asset('/storage/'.$product->mainImage) }}">
+                                            </a>
+                                        </div>
+                                        <figcaption class="pt-2">
+                                            @if(in_array($product->id, $chosenOneArray))
+                                                <a id="selectBtn-{{ $product->id }}"
+                                                   href="{{ route('removeChoseOne', ['user'=>Auth::user()->id, 'product'=>$product->id]) }}"
+                                                   class="float-end btn btn-light btn-outline-danger active"><i
+                                                        class="bi bi-heart">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13"
+                                                             fill="currentColor" class="bi bi-heart"
+                                                             viewBox="0 0 16 16">
+                                                            <path
+                                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                                                        </svg>
+                                                    </i></a>
+                                            @else
+                                                <a id="selectBtn-{{ $product->id }}"
+                                                   href="{{ route('choseOne', ['user'=>Auth::user()->id, 'product'=>$product->id]) }}"
+                                                   class="float-end btn btn-light btn-outline-danger"><i
+                                                        class="bi bi-heart">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13"
+                                                             fill="currentColor" class="bi bi-heart"
+                                                             viewBox="0 0 16 16">
+                                                            <path
+                                                                d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                                                        </svg>
+                                                    </i></a>
+                                            @endif
+                                            <a href="{{ route('productDetail', $product->id) }}"
+                                               class="title">{{ $product->tittle }}</a>
+                                            <br>
+                                            <small class="text-muted">{{ $category->tittle }}</small>
+                                            <br>
+                                            <strong class="price">{{ $product->price }} $</strong> <!-- price.// -->
+                                        </figcaption>
+                                    </figure>
+                                </div> <!-- col end.// -->
+                            @endforeach
+                        @else
+                            @foreach($productsFil->items() as $productFil)
+                                <div class="col-lg-3 col-md-5 col-sm-5 bg-gradient m-4">
+                                    <figure class="card-product-grid">
+                                        <div class="bg-light rounded mt-2">
+                                            <a href="{{ route('productDetail', $productFil['id']) }}"
+                                               class="img-wrap rounded bg-gray-light">
+                                                <img height="100" class="mix-blend-multiply mt-4 m-5 rounded"
+                                                     src="{{ asset('/storage/'.$productFil['mainImage']) }}">
+                                            </a>
+                                        </div>
+                                        <figcaption class="pt-2">
+                                            <a id="selectBtn"
+                                               href="{{ route('choseOne', ['user'=>Auth::user()->id, 'product'=>$productFil['id']]) }}"
+                                               class="float-end btn btn-light btn-outline-danger"> <i
                                                     class="bi bi-heart">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13"
                                                          fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
                                                         <path
                                                             d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
                                                     </svg>
-                                                </i></a>
-                                        @endif
-                                        <a href="{{ route('productDetail', $product->id) }}"
-                                           class="title">{{ $product->tittle }}</a>
-                                        <br>
-                                        <small class="text-muted">{{ $category->tittle }}</small>
-                                        <br>
-                                        <strong class="price">{{ $product->price }} $</strong> <!-- price.// -->
-                                    </figcaption>
-                                </figure>
-                            </div> <!-- col end.// -->
-                        @endforeach
-                    @else
-                        @foreach($productsFil->items() as $productFil)
-                            <div class="col-lg-3 col-md-5 col-sm-5 bg-gradient m-4">
-                                <figure class="card-product-grid">
-                                    <div class="bg-light rounded mt-2">
-                                        <a href="{{ route('productDetail', $productFil['id']) }}"
-                                           class="img-wrap rounded bg-gray-light">
-                                            <img height="100" class="mix-blend-multiply mt-4 m-5 rounded"
-                                                 src="{{ asset('/storage/'.$productFil['mainImage']) }}">
-                                        </a>
-                                    </div>
-                                    <figcaption class="pt-2">
-                                        <a id="selectBtn"
-                                           href="{{ route('choseOne', ['user'=>Auth::user()->id, 'product'=>$productFil['id']]) }}"
-                                           class="float-end btn btn-light btn-outline-danger"> <i class="bi bi-heart">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13"
-                                                     fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-                                                </svg>
-                                            </i> </a>
+                                                </i> </a>
 
-                                        <a href="{{ route('productDetail', $productFil['id']) }}"
-                                           class="title">{{ $productFil['tittle'] }}</a>
-                                        <br>
-                                        <small class="text-muted">{{ $category['tittle'] }}</small>
-                                        <br>
-                                        <strong class="price">{{ $productFil['price'] }} $</strong> <!-- price.// -->
-                                    </figcaption>
-                                </figure>
-                            </div> <!-- col end.// -->
-                        @endforeach
+                                            <a href="{{ route('productDetail', $productFil['id']) }}"
+                                               class="title">{{ $productFil['tittle'] }}</a>
+                                            <br>
+                                            <small class="text-muted">{{ $category['tittle'] }}</small>
+                                            <br>
+                                            <strong class="price">{{ $productFil['price'] }} $</strong>
+                                            <!-- price.// -->
+                                        </figcaption>
+                                    </figure>
+                                </div> <!-- col end.// -->
+                            @endforeach
+                        @endif
                     @endif
                 </div> <!-- row end.// -->
                 <hr>
                 <footer class="d-flex mt-4">
-                    @if(empty($productsFil[0]))
-                        {{ $productsList->links() }}
-                    @else
-                        @if((!request()->filled('page')) || (request()->page == 1))
-                            @if($productsFilLinks > 1)
-                                <nav>
-                                    <ul class="pagination">
-                                        <li class="page-item disabled" aria-disabled="true" aria-label="« Previous">
-                                            <span class="page-link" aria-hidden="true">‹</span>
-                                        </li>
-                                        <li class="page-item active" aria-current="page"><span
-                                                class="page-link">1</span></li>
-                                        @for($i = 2; $i <= $productsFilLinks; $i++)
-                                            <li class="page-item"><a class="page-link"
-                                                                     href="?page={{ $i }}&{{ str_replace('page='.request()->page, '', request()->getQueryString()) }}">{{ $i }}</a>
-                                            </li>
-                                        @endfor
-                                        <li class="page-item">
-                                            <a class="page-link"
-                                               href="?page=2&{{ str_replace('page='.request()->page, '', request()->getQueryString()) }}"
-                                               rel="next"
-                                               aria-label="Next »">›</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            @endif
-                        @elseif(request()->page > 1)
+                    @if(($productsFil == null) && (!str_replace(['page='.request()->page, 'sort='.request()->page], '', request()->getQueryString())))
+                        @if(empty($productsFil[0]))
+                            {{ $productsList->links() }}
+                        @endif
+                    @endif
+                    @if((!request()->filled('page')) || (request()->page == 1))
+                        @if($productsFilLinks > 1)
                             <nav>
                                 <ul class="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link"
-                                           href="?page={{ request()->page - 1 }}&{{ str_replace('page='.request()->page, '', request()->getQueryString()) }}"
-                                           rel="Previous"
-                                           aria-label=" «Previous">‹</a>
+                                    <li class="page-item disabled" aria-disabled="true" aria-label="« Previous">
+                                        <span class="page-link" aria-hidden="true">‹</span>
                                     </li>
-                                    @for($i = 1; $i <= $productsFilLinks; $i++)
-                                        @if($i == request()->page)
-                                            <li class="page-item active" aria-current="page"><span
-                                                    class="page-link">{{ $i }}</span></li>
-                                        @else
-                                            <li class="page-item"><a class="page-link"
-                                                                     href="?page={{ $i }}&{{ str_replace('page='.request()->page, '', request()->getQueryString()) }}">{{ $i }}</a>
-                                            </li>
-                                        @endif
+                                    <li class="page-item active" aria-current="page"><span
+                                            class="page-link">1</span></li>
+                                    @for($i = 2; $i <= $productsFilLinks; $i++)
+                                        <li class="page-item"><a class="page-link"
+                                                                 href="?page={{ $i }}&{{ str_replace('page='.request()->page, '', request()->getQueryString()) }}">{{ $i }}</a>
+                                        </li>
                                     @endfor
                                     <li class="page-item">
                                         <a class="page-link"
-                                           href="?page={{ request()->page + 1 }}&{{ str_replace('page='.request()->page, '', request()->getQueryString()) }}"
+                                           href="?page=2&{{ str_replace('page='.request()->page, '', request()->getQueryString()) }}"
                                            rel="next"
                                            aria-label="Next »">›</a>
                                     </li>
                                 </ul>
                             </nav>
                         @endif
+                    @elseif((request()->page > 1) && (str_replace(['page='.request()->page, 'sort='.request()->page], '', request()->getQueryString())))
+                        <nav>
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="?page={{ request()->page - 1 }}&{{ str_replace('page='.request()->page, '', request()->getQueryString()) }}"
+                                       rel="Previous"
+                                       aria-label=" «Previous">‹</a>
+                                </li>
+                                @for($i = 1; $i <= $productsFilLinks; $i++)
+                                    @if($i == request()->page)
+                                        <li class="page-item active" aria-current="page"><span
+                                                class="page-link">{{ $i }}</span></li>
+                                    @else
+                                        <li class="page-item"><a class="page-link"
+                                                                 href="?page={{ $i }}&{{ str_replace('page='.request()->page, '', request()->getQueryString()) }}">{{ $i }}</a>
+                                        </li>
+                                    @endif
+                                @endfor
+                                <li class="page-item">
+                                    <a class="page-link"
+                                       href="?page={{ request()->page + 1 }}&{{ str_replace('page='.request()->page, '', request()->getQueryString()) }}"
+                                       rel="next"
+                                       aria-label="Next »">›</a>
+                                </li>
+                            </ul>
+                        </nav>
                     @endif
                 </footer>
                 {{--                <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>--}}

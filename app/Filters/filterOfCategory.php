@@ -38,12 +38,18 @@ class filterOfCategory
         }
 
         $filt = [];
+        $params = [];
+        $inpChars = [];
 
         foreach ($request->all() as $object)
         {
             if (str_contains($object, '-'))
             {
                 $object = explode('-', $object);
+                if (!in_array($object[0], $params))
+                {
+                    array_push($params, $object[0]);
+                }
 
                 foreach ($charsOfProd as $charOfProd)
                 {
@@ -52,21 +58,39 @@ class filterOfCategory
                         if (($object[0] == $fil->char) && ($object[1] == $fil->value))
                         {
                             array_push($filt, $fil);
+
                         }
                     }
                 }
 
             }
         }
-        $productsFil = collect();
-        foreach ($filt as $res)
+
+        foreach ($filt as $f)
         {
-            foreach ($products->get() as $product)
+            $inpChars[$f->product][$f->char] = [$f->value];
+        }
+
+        $max = count($params);
+
+        $productsId = [];
+
+        while ($t = current($inpChars))
+        {
+            if ($max == count($t))
             {
-                if ($res->product == $product->id)
-                {
-                    $productsFil->push($product);
-                }
+                array_push($productsId, key($inpChars));
+            }
+            next($inpChars);
+        }
+
+        $productsFil = collect();
+
+        foreach ($products->get() as $product)
+        {
+            if (in_array($product->id, $productsId))
+            {
+                $productsFil->push($product);
             }
         }
 
