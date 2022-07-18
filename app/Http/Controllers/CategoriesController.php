@@ -20,7 +20,7 @@ class CategoriesController extends Controller
             $products = $context['products'];
 
             $paginate = new Pagination();
-            $productsFil = $paginate->pagination($context['productsFil'], 3);
+            $productsFil = $paginate->pagination($context['productsFil'], 9);
             $productsFilLinks = $paginate->links($productsFil->total(), $productsFil->perPage());
         }
 

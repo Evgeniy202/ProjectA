@@ -41,6 +41,8 @@ Route::middleware(['verified'])->group(function () {
         return view('profile');
     })->name('profile');
 
+    Route::get('selected', [SelectedController::class, 'selected'])
+        ->name('selected');
     Route::get('choseOne/{user}/{product}', [SelectedController::class, 'choseOne'])
         ->name('choseOne');
     Route::get('removeChoseOne/{user}/{product}', [SelectedController::class, 'removeChoseOne'])

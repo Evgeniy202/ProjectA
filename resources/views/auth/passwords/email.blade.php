@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        $categoriesList = \App\Models\Categories::all();
+    @endphp
 <div class="container text-dark">
     <div class="row justify-content-center">
         <div class="col-md-8">

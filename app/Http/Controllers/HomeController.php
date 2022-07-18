@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Categories;
 use App\Models\Products;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -13,10 +14,11 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    //TODO for the future
+//    public function __construct()
+//    {
+//        $this->middleware('auth');
+//    }
 
     /**
      * Show the application dashboard.
@@ -25,12 +27,26 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if (!empty(Auth::user()->id))
+        {
+            $chosenOne = \App\Models\Selected::query()->where('user', Auth::user()->id)->get();
+        }
+        $chosenOneArray = [];
+
+        if ((!empty($chosenOne)) && ($chosenOne != null))
+        {
+            foreach ($chosenOne as $chosenProduct) {
+                array_push($chosenOneArray, $chosenProduct->product);
+            }
+        }
+
         return view('home', [
             'productsList' => Products::query()
                 ->where('isAvailable', 1)
                 ->where('isFavorite', 1)
-                ->get(),
+                ->paginate(25),
             'categoriesList' => Categories::all(),
+            'chosenOneArray' => $chosenOneArray
         ]);
     }
 }
