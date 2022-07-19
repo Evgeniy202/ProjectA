@@ -10,21 +10,29 @@ use Illuminate\Support\Facades\Auth;
 
 class SelectedController extends Controller
 {
-    public function choseOne($user, $product)
+    public function choseOne($product)
     {
-        $review = new Selected();
+        if (!empty($user = Auth::user()->id))
+        {
+            $review = new Selected();
 
-        $review->user = $user;
-        $review->product = $product;
+            $review->user = $user;
+            $review->product = $product;
 
-        $review->save();
+            $review->save();
 
-        return redirect()->back();
+            return redirect()->back();
+        }
+
+        return redirect(route('login'));
     }
 
-    public function removeChoseOne($user, $product)
+    public function removeChoseOne($product)
     {
-        Selected::query()->where('user', $user)->where('product', $product)->delete();
+        if ($user = Auth::user()->id)
+        {
+            Selected::query()->where('user', $user)->where('product', $product)->delete();
+        }
 
         return redirect()->back();
     }

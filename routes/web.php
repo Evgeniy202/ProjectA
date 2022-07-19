@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\SelectedController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,10 +44,13 @@ Route::middleware(['verified'])->group(function () {
 
     Route::get('selected', [SelectedController::class, 'selected'])
         ->name('selected');
-    Route::get('choseOne/{user}/{product}', [SelectedController::class, 'choseOne'])
+    Route::get('choseOne/{product}', [SelectedController::class, 'choseOne'])
         ->name('choseOne');
-    Route::get('removeChoseOne/{user}/{product}', [SelectedController::class, 'removeChoseOne'])
+    Route::get('removeChoseOne/{product}', [SelectedController::class, 'removeChoseOne'])
         ->name('removeChoseOne');
+
+    Route::get('addToCart/{productId}', [CartController::class, 'addToCart'])
+        ->name('addToCart');
 });
 
 

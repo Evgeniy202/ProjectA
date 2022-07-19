@@ -27,11 +27,13 @@
                 <p>Price: {{ $product->price }} грн.</p>
                 <p>Description: {{ $product->description }} </p>
                 <hr>
-
-                <a href="#">
-                    <button class="btn btn-danger">Додати до кошику</button>
-                </a>
-
+                @if(!empty(Auth::user()->id))
+                <a href="{{ route('choseOne', $product->id) }}" class="btn btn-outline-primary">Add to selected</a>
+                <a href="{{ route('addToCart', $product->id) }}" class="btn btn-outline-success">Add to cart</a>
+                @else
+                    <a href="{{ route('login') }}" class="btn btn-outline-primary">Add to selected</a>
+                    <a href="{{ route('login') }}" class="btn btn-outline-success">Add to cart</a>
+                @endif
             </div>
             <hr>
             <p class="mt-4"><h4>Характеристики:</h4></p>

@@ -46,8 +46,8 @@
                                     <span class="price h5 text-dark m-1"> ${{ $selectedProduct->price }} </span>
                                 </div> <!-- info-price-detail // -->
                                 <div class="mb-3">
-                                    <a href="#" class="btn btn-outline-primary col-8 m-1"> Add to cart </a>
-                                    <a href="{{ route('removeChoseOne', ['user'=>Auth::user()->id, 'product'=>$selectedProduct->id]) }}"
+                                    <a href="{{ route('addToCart', $selectedProduct->id) }}" class="btn btn-outline-primary col-8 m-1"> Add to cart </a>
+                                    <a href="{{ route('removeChoseOne', ['product'=>$selectedProduct->id]) }}"
                                        class="btn btn-outline-danger col-8 m-1"> Remove from selected </a>
                                 </div>
                             </div> <!-- info-aside.// -->
