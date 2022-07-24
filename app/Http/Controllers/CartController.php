@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\CartProduct;
+use App\Models\Categories;
+use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,5 +31,46 @@ class CartController extends Controller
         {
             return redirect(route('login'));
         }
+    }
+
+    public function cartView()
+    {
+        $inCart = CartProduct::query()->where('user', Auth::user()->id)->get();
+
+        $productsId = [];
+
+        if (!empty($inCart[0]))
+        {
+            foreach ($inCart as $prod) {
+                array_push($productsId, $prod->product);
+            }
+        }
+
+        return view('cart', [
+            'categoriesList' => Categories::all(),
+            'inCart' => $inCart,
+            'cartProductsList' => Products::query()->whereIn('id', $productsId)->get()
+        ]);
+    }
+
+    public function changeNumberProduct($cartProductId, Request $request)
+    {
+        $review = CartProduct::query()->find($cartProductId)->first();
+
+        if (!empty($review))
+        {
+            $review->number = $request->input('qty');
+
+            $review->save();
+        }
+
+        return redirect()->back();
+    }
+
+    public function removeProductFromCart($cartProductId)
+    {
+        CartProduct::query()->where('user', Auth::user()->id)->where('id', $cartProductId)->delete();
+
+        return redirect()->back();
     }
 }

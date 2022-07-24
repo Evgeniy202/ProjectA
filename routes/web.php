@@ -51,6 +51,12 @@ Route::middleware(['verified'])->group(function () {
 
     Route::get('addToCart/{productId}', [CartController::class, 'addToCart'])
         ->name('addToCart');
+    Route::get('cart', [CartController::class, 'cartView'])
+        ->name('cartView');
+    Route::post('changeNumberProduct/{cartProductId}/', [CartController::class, 'changeNumberProduct'])
+        ->name('changeNumberProduct');
+    Route::get('removeProductFromCart/{cartProductId}', [CartController::class, 'removeProductFromCart'])
+        ->name('removeProductFromCart');
 });
 
 
