@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\SelectedController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,6 +58,13 @@ Route::middleware(['verified'])->group(function () {
         ->name('changeNumberProduct');
     Route::get('removeProductFromCart/{cartProductId}', [CartController::class, 'removeProductFromCart'])
         ->name('removeProductFromCart');
+    Route::get('cleanCart', [CartController::class, 'cleanCart'])
+        ->name('cleanCart');
+
+    Route::get('order', [OrderController::class, 'orderView'])
+        ->name('orderView');
+    Route::post('checkOrder', [OrderController::class, 'checkOrder'])
+        ->name('checkOrder');
 });
 
 

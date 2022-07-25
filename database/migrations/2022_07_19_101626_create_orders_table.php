@@ -19,7 +19,13 @@ class CreateOrdersTable extends Migration
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
-            $table->char('status', 255);
+            $table->decimal('price');
+            $table->char('status', 50)
+                ->default('new');
+            $table->char('name', 255);
+            $table->char('address', 255);
+            $table->text('comment')
+                ->nullable();
             $table->timestamps();
         });
     }

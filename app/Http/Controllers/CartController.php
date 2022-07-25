@@ -55,7 +55,7 @@ class CartController extends Controller
 
     public function changeNumberProduct($cartProductId, Request $request)
     {
-        $review = CartProduct::query()->find($cartProductId)->first();
+        $review = CartProduct::query()->find($cartProductId);
 
         if (!empty($review))
         {
@@ -70,6 +70,13 @@ class CartController extends Controller
     public function removeProductFromCart($cartProductId)
     {
         CartProduct::query()->where('user', Auth::user()->id)->where('id', $cartProductId)->delete();
+
+        return redirect()->back();
+    }
+
+    public function cleanCart()
+    {
+        CartProduct::query()->where('user', Auth::user()->id)->delete();
 
         return redirect()->back();
     }

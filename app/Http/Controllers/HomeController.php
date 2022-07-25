@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Categories;
 use App\Models\Products;
+use App\Session\GetSelected;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Session\GetCategories;
 
 class HomeController extends Controller
 {
@@ -27,25 +29,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (!empty(Auth::user()->id))
-        {
-            $chosenOne = \App\Models\Selected::query()->where('user', Auth::user()->id)->get();
-        }
-        $chosenOneArray = [];
+        $categoriesList = new GetCategories();
+        $categoriesList = $categoriesList->getCategoriesList();
 
-        if ((!empty($chosenOne)) && ($chosenOne != null))
-        {
-            foreach ($chosenOne as $chosenProduct) {
-                array_push($chosenOneArray, $chosenProduct->product);
-            }
-        }
+        $chosenOneArray = new GetSelected();
+        $chosenOneArray = $chosenOneArray->getSelected();
 
         return view('home', [
             'productsList' => Products::query()
                 ->where('isAvailable', 1)
                 ->where('isFavorite', 1)
                 ->paginate(25),
-            'categoriesList' => Categories::all(),
+            'categoriesList' => $categoriesList,
             'chosenOneArray' => $chosenOneArray
         ]);
     }
