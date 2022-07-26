@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequest;
 use App\Models\CartProduct;
+use App\Models\Order;
+use App\Models\OrderProduct;
 use App\Models\Products;
 use App\Session\GetCategories;
 use App\Session\GetSelected;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -36,5 +38,42 @@ class OrderController extends Controller
             'inCart' => $inCart,
             'cartProductsList' => Products::query()->whereIn('id', $productsId)->get()
         ]);
+    }
+
+    public function checkOrder(OrderRequest $request)
+    {
+        if ((!empty($user = Auth::user()->id)) && ($request->input('generalPrice') > 0))
+        {
+            $review = new Order();
+
+            $review->user = $user;
+            $review->price = $request->input('generalPrice');
+            $review->name = $request->input('name');
+            $review->phone = $request->input('phone');
+            $review->address = $request->input('address');
+            if (!empty($request->input('comment')))
+            {
+                $review->comment = $request->input('comment');
+            }
+            $review->status = 'New';
+
+            $review->save();
+
+            $products = CartProduct::query()->where('user', $user)->get();
+
+            foreach ($products as $product)
+            {
+                $review = new OrderProduct();
+
+                $review->user = $product->user;
+                $review->product = $product->product;
+                $review->number = $product->number;
+
+                $review->save();
+            }
+
+            return redirect()->route('home')->with('success', 'Success! The manager will contact you shortly.');
+        }
+
     }
 }

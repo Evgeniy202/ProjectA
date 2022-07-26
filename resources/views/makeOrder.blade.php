@@ -41,19 +41,32 @@
             <h5>General price: ${{ $generalPrice }}</h5>
             <hr class="mb-5">
             <h4 class="text-center mb-5">Order</h4>
-            <form action="{{ route('checkOrder') }}" method="post">
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            <form method="post" action="{{ route('checkOrder') }}">
+                @csrf
                 <div class="mt-2">
                     <input id="name" name="name" type="text" class="form-control" placeholder="Recipient firstname and lastname...">
                 </div>
                 <div class="mt-2">
+                    <input id="phone" name="phone" type="text" class="form-control" placeholder="Mobile number...">
+                </div><div class="mt-2">
                     <input id="address" name="address" type="text" class="form-control" placeholder="Address of ZIP Code...">
                 </div>
                 <div class="mt-2">
                     <textarea id="comment" name="comment" class="form-control" rows="10" placeholder="Comment (not necessarily)..."></textarea>
                 </div>
+                <input id="generalPrice" name="generalPrice" type="text" class="visually-hidden" value="{{ $generalPrice }}" readonly>
                 <div class="mt-2">
                     <button type="submit" class="btn btn-outline-success col-9 m-2">Send</button>
-                    <button class="btn btn-outline-secondary col-2 m-2">Close</button>
+                    <a href="{{ route('cartView') }}" class="btn btn-outline-secondary col-2 m-2">Close</a>
                 </div>
             </form>
         @else

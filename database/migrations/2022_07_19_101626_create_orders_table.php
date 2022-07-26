@@ -23,6 +23,7 @@ class CreateOrdersTable extends Migration
             $table->char('status', 50)
                 ->default('new');
             $table->char('name', 255);
+            $table->bigInteger('phone');
             $table->char('address', 255);
             $table->text('comment')
                 ->nullable();

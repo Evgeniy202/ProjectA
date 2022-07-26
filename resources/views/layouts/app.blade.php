@@ -120,6 +120,19 @@
     </nav>
 
     <main class="py-4">
+        @if(session()->has('success'))
+            <div id="message" class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>{{ session()->get('success') }}</strong>
+                <script>
+                    setTimeout(function () {
+                        document.getElementById('message').style.display = 'none';
+                    }, 4000);
+                    document.getElementById('message').onclick = function () {
+                        document.getElementById('message').hidden = true;
+                    }
+                </script>
+            </div>
+        @endif
         @yield('content')
     </main>
 </div>
